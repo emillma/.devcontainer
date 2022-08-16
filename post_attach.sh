@@ -6,5 +6,5 @@ trust_directories() {
     done
 }
 trust_directories .devcontainer TTK4250Exercises handoutgen
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
+git config --global user.email "emil.martens@gmail.com"
+git config --global user.name "Emil Martens"

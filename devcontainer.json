@@ -35,6 +35,6 @@
         "DISPLAY": "172.31.160.1:0.0"
     },
     "postAttachCommand": "cd /workspaces/vitass/.devcontainer && chmod 777 post_attach.sh && ./post_attach.sh",
-    "workspaceFolder": "/workspace",
+    // "workspaceFolder": "/workspaces",
     // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
 }
