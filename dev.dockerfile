@@ -40,7 +40,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install \
     numpy scipy matplotlib pyqt5 pandas sympy\
     pylint autopep8 jupyter \
-    pytest
+    pytest tpdm
 
 RUN pip3 install plotly dash dash_bootstrap_components
 RUN pip3 install numba torch torchvision

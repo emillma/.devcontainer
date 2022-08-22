@@ -18,6 +18,7 @@
         "mhutchie.git-graph",
         "znck.grammarly",
         "james-yu.latex-workshop",
+        "github.copilot"
     ],
     "name": "mycontainer",
     "runArgs": [
