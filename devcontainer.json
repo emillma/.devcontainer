@@ -29,13 +29,10 @@
         // "--net=host",
         // "--runtime=nvidia",
         // "--ipc=host",
-        // "-e DISPLAY=172.27.160.1:0.0",
         // "--device=/dev/ttyUSB0",
     ],
-    "remoteEnv": {
-        "DISPLAY": "172.31.160.1:0.0"
-    },
-    "postAttachCommand": "cd /workspaces/vitass/.devcontainer && chmod 777 post_attach.sh && ./post_attach.sh",
+    "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && ./initialize.sh",
+    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && ./post_start.sh"
     // "workspaceFolder": "/workspaces",
     // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
 }

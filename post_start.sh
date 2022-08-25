@@ -6,5 +6,8 @@ trust_directories() {
     done
 }
 trust_directories .devcontainer TTK4250Exercises hwlib
+
 git config --global user.email "emil.martens@gmail.com"
 git config --global user.name "Emil Martens"
+
+echo "export DISPLAY=$(cat display.txt)" >> ~/.bashrc
