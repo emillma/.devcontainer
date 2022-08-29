@@ -24,9 +24,9 @@ RUN apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-n
 
 # install python stuff
 RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt-get update && apt-get install -y python3.10 python3.10-distutils
+RUN apt-get update && apt-get install -y python3.9 python3.9-distutils
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1 \
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 \
     && update-alternatives --config python3
 
 # install pip
@@ -40,7 +40,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install \
     numpy scipy matplotlib pyqt5 pandas sympy\
     pylint autopep8 jupyter \
-    pytest tpdm
+    pytest 
 
 RUN pip3 install plotly dash dash_bootstrap_components
 RUN pip3 install numba torch torchvision

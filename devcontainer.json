@@ -18,7 +18,8 @@
         "mhutchie.git-graph",
         "znck.grammarly",
         "james-yu.latex-workshop",
-        "github.copilot"
+        "github.copilot",
+        "janisdd.vscode-edit-csv"
     ],
     "name": "mycontainer",
     "runArgs": [
