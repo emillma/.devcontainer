@@ -19,7 +19,8 @@
         "znck.grammarly",
         "james-yu.latex-workshop",
         "github.copilot",
-        "janisdd.vscode-edit-csv"
+        "janisdd.vscode-edit-csv",
+        "znck.grammarly"
     ],
     "name": "mycontainer",
     "runArgs": [
@@ -32,8 +33,8 @@
         // "--ipc=host",
         // "--device=/dev/ttyUSB0",
     ],
-    "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && ./initialize.sh",
-    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && ./post_start.sh"
+    "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
+    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
     // "workspaceFolder": "/workspaces",
     // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
 }

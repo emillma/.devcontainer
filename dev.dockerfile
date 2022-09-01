@@ -51,8 +51,6 @@ RUN pip3 install \
     networkx \
     libcst
 
-# RUN git config --global user.email "emil.martens@gmail.com" && git config --global user.name "Emil Martens"
-# COPY .gitconfig /home
 
 # for grammarly in vscode
 # RUN curl -s https://deb.nodesource.com/setup_18.x | sudo bash
