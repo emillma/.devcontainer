@@ -2,35 +2,36 @@
 FROM ubuntu:latest
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y apt-utils git
+RUN apt update && apt upgrade -y
+RUN apt install -y apt-utils git
 
 # Latex (from https://github.com/blang/latex-docker/blob/master/Dockerfile.ubuntu)
-RUN apt-get update && apt-get install -qy git build-essential wget libfontconfig1 \
+RUN apt update && apt install -qy git build-essential wget libfontconfig1 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -q && apt-get install -qy \
+RUN apt update -q && apt install -qy \
     texlive-full \
     python3-pygments gnuplot \
     && rm -rf /var/lib/apt/lists/*
 
 # install basic stuff
-RUN apt-get update && apt-get -y upgrade \
-    && apt-get install -y \
-    build-essential wget curl git cmake sl sudo net-tools iputils-ping nmap file 
+RUN apt update && apt -y upgrade \
+    && apt install -y \
+    wget curl git cmake sl sudo net-tools iputils-ping nmap file 
 
 # pico stuff
-RUN apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
+RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
+RUN apt install automake autoconf texinfo libtool libftdi-dev libusb-1.0-0-dev
 
 # install python stuff
-RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt-get update && apt-get install -y python3.9 python3.9-distutils
+RUN apt update && apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
+RUN apt update && apt install -y python3.9 python3.9-distutils
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 \
     && update-alternatives --config python3
 
 # install pip
-RUN apt-get install -y python3-pip 
+RUN apt install -y python3-pip 
 
 # to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
 RUN printf "%s\n" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
@@ -54,6 +55,6 @@ RUN pip3 install \
 
 # for grammarly in vscode
 # RUN curl -s https://deb.nodesource.com/setup_18.x | sudo bash
-# RUN sudo apt-get install nodejs && npm install -g typescript pnpm sandboxed-module  
+# RUN sudo apt install nodejs && npm install -g typescript pnpm sandboxed-module  
 RUN apt install fonts-firacode
 
