@@ -1,4 +1,3 @@
-# docker build -t devcontainer:latest -f .\.devcontainer\Dockerfile .
 FROM ubuntu:latest
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -21,7 +20,7 @@ RUN apt update && apt -y upgrade \
 
 # pico stuff
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
-RUN apt install automake autoconf texinfo libtool libftdi-dev libusb-1.0-0-dev
+RUN apt install -y automake autoconf texinfo libtool libftdi-dev libusb-1.0-0-dev
 
 # install python stuff
 RUN apt update && apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
