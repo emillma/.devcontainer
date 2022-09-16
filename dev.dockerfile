@@ -49,7 +49,9 @@ RUN pip3 install opencv-python opencv-contrib-python
 RUN pip3 install \
     pyserial \
     networkx \
-    libcst
+    libcst \
+    tqdm
+
 
 
 # for grammarly in vscode
