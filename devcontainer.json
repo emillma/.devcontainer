@@ -20,7 +20,7 @@
         "james-yu.latex-workshop",
         "github.copilot",
         "janisdd.vscode-edit-csv",
-        "znck.grammarly"
+        "peakchen90.open-html-in-browser"
     ],
     "name": "mycontainer",
     "runArgs": [
