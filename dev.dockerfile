@@ -24,7 +24,7 @@ RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-
 RUN apt install -y automake autoconf build-essential texinfo libtool libftdi-dev libusb-1.0-0-dev  pkg-config minicom
 RUN cd ~ && git clone https://github.com/raspberrypi/openocd.git --branch rp2040 --depth=1 --no-single-branch
 RUN cd ~/openocd && ./bootstrap && ./configure --enable-picoprobe && make -j4
-RUN apt install gdb
+RUN apt install -y gdb-multiarch
 
 # install python stuff
 RUN apt update && apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa

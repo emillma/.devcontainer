@@ -24,7 +24,7 @@
     ],
     "name": "mycontainer",
     "runArgs": [
-        "--add-host=host.docker.internal:host-gateway"
+        "--add-host=host.docker.internal:host-gateway",
         // "--net=host",
         // "--gpus=all",
         // "--privileged",
@@ -33,11 +33,12 @@
         // "--runtime=nvidia",
         // "--ipc=host",
         // "--device=/dev/bus/usb/001/002"
-        // "$(cd ${localWorkspaceFolder}/.devcontainer && python3 runargs.py)",
+        "${localEnv:VS_DEVCONT_PICOPROBE}",
+        "${localEnv:VS_DEVCONT_ACM}"
     ],
     // "remoteEnv": {DISPLAY},
     "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
-    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
+    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py"
     // "workspaceFolder": "/workspaces",
     // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
 }
