@@ -20,7 +20,7 @@
         "james-yu.latex-workshop",
         "github.copilot",
         "janisdd.vscode-edit-csv",
-        "znck.grammarly"
+        "marus25.cortex-debug"
     ],
     "name": "mycontainer",
     "runArgs": [
@@ -31,7 +31,8 @@
         // "--net=host",
         // "--runtime=nvidia",
         // "--ipc=host",
-        // "--device=/dev/ttyUSB0",
+        // "--device=/dev/bus/usb/001/002"
+        // "$(cd ${localWorkspaceFolder}/.devcontainer && python3 runargs.py)",
     ],
     "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
     "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",

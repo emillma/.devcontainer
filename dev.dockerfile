@@ -17,11 +17,14 @@ RUN apt update -q && apt install -qy \
 # install basic stuff
 RUN apt update && apt -y upgrade \
     && apt install -y \
-    wget curl git cmake sl sudo net-tools iputils-ping nmap file 
+    wget curl git cmake sl sudo net-tools iputils-ping nmap file usbutils minicom
 
 # pico stuff
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
-RUN apt install automake autoconf texinfo libtool libftdi-dev libusb-1.0-0-dev
+RUN apt install -y automake autoconf build-essential texinfo libtool libftdi-dev libusb-1.0-0-dev  pkg-config minicom
+RUN cd ~ && git clone https://github.com/raspberrypi/openocd.git --branch rp2040 --depth=1 --no-single-branch
+RUN cd ~/openocd && ./bootstrap && ./configure --enable-picoprobe && make -j4
+RUN apt install gdb
 
 # install python stuff
 RUN apt update && apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
