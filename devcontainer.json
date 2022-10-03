@@ -24,6 +24,7 @@
     ],
     "name": "mycontainer",
     "runArgs": [
+        "--add-host=host.docker.internal:host-gateway"
         // "--net=host",
         // "--gpus=all",
         // "--privileged",
@@ -34,6 +35,7 @@
         // "--device=/dev/bus/usb/001/002"
         // "$(cd ${localWorkspaceFolder}/.devcontainer && python3 runargs.py)",
     ],
+    // "remoteEnv": {DISPLAY},
     "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
     "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
     // "workspaceFolder": "/workspaces",
