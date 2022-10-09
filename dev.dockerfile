@@ -3,8 +3,16 @@ FROM ubuntu:focal
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update && apt upgrade -y
+
+#basic tools
 RUN apt install -y \
-    apt-utils wget curl git cmake sl sudo net-tools iputils-ping nmap file usbutils minicom
+    apt-utils wget curl git sudo net-tools iputils-ping nmap file usbutils minicom
+
+# cmake
+ARG CMAKE_VERSION=3.24.0
+RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh \
+    -q -O /tmp/cmake-install.sh && chmod u+x /tmp/cmake-install.sh && mkdir /usr/bin/cmake \
+    && /tmp/cmake-install.sh --skip-license --prefix=/usr/bin/cmake && rm /tmp/cmake-install.sh
 
 #miktex
 RUN apt install -y apt-transport-https  ca-certificates  dirmngr  ghostscript  gnupg  gosu  make  perl
@@ -24,7 +32,7 @@ RUN initexmf --set-config-value [MPM]AutoInstall=1
 #     python3-pygments gnuplot \
 #     && rm -rf /var/lib/apt/lists/*
 
-# install basic stuff
+
 
 # pico stuff
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
@@ -37,13 +45,11 @@ RUN apt install -y gdb-multiarch
 # install python stuff
 ARG python=python3.10
 RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt update && apt install -y ${python} ${python}-distutils
+RUN apt update && apt install -y ${python} ${python}-distutils python3-pip 
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 \
     && update-alternatives --config python3
 
-# install pip
-RUN apt install -y python3-pip 
 
 # to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
 RUN printf "%s\n" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
