@@ -1,23 +1,30 @@
 # docker build -t devcontainer:latest -f .\.devcontainer\Dockerfile .
-FROM ubuntu:latest
+FROM ubuntu:focal
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update && apt upgrade -y
-RUN apt install -y apt-utils git
+RUN apt install -y \
+    apt-utils wget curl git cmake sl sudo net-tools iputils-ping nmap file usbutils minicom
+
+#miktex
+RUN apt install -y apt-transport-https  ca-certificates  dirmngr  ghostscript  gnupg  gosu  make  perl
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
+RUN echo "deb http://miktex.org/download/ubuntu focal universe" | tee /etc/apt/sources.list.d/miktex.list
+
+RUN apt-get update && apt-get install -y --no-install-recommends miktex
+RUN miktexsetup finish
+RUN initexmf --set-config-value [MPM]AutoInstall=1
 
 # Latex (from https://github.com/blang/latex-docker/blob/master/Dockerfile.ubuntu)
-RUN apt update && apt install -qy git build-essential wget libfontconfig1 \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt update && apt install -qy git build-essential wget libfontconfig1 \
+#     && rm -rf /var/lib/apt/lists/*
 
-RUN apt update -q && apt install -qy \
-    texlive-full \
-    python3-pygments gnuplot \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt update -q && apt install -qy \
+#     texlive-full \
+#     python3-pygments gnuplot \
+#     && rm -rf /var/lib/apt/lists/*
 
 # install basic stuff
-RUN apt update && apt -y upgrade \
-    && apt install -y \
-    wget curl git cmake sl sudo net-tools iputils-ping nmap file usbutils minicom
 
 # pico stuff
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
@@ -26,11 +33,13 @@ RUN cd ~ && git clone https://github.com/raspberrypi/openocd.git --branch rp2040
 RUN cd ~/openocd && ./bootstrap && ./configure --enable-picoprobe && make -j4
 RUN apt install -y gdb-multiarch
 
-# install python stuff
-RUN apt update && apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt update && apt install -y python3.9 python3.9-distutils
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 \
+# install python stuff
+ARG python=python3.10
+RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
+RUN apt update && apt install -y ${python} ${python}-distutils
+
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 \
     && update-alternatives --config python3
 
 # install pip
@@ -40,7 +49,7 @@ RUN apt install -y python3-pip
 RUN printf "%s\n" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
 
 # install packages
-RUN pip3 install --upgrade pip
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | ${python}
 RUN pip3 install \
     numpy scipy matplotlib pyqt5 pandas sympy\
     pylint autopep8 jupyter \
