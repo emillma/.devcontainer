@@ -33,8 +33,7 @@
         // "--runtime=nvidia",
         // "--ipc=host",
         // "--device=/dev/bus/usb/001/002"
-        "${localEnv:VS_DEVCONT_PICOPROBE}",
-        "${localEnv:VS_DEVCONT_ACM}"
+        "${localEnv:DEVCONTAINER_RUN_ARGS}"
     ],
     // "remoteEnv": {DISPLAY},
     "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
