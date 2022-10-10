@@ -1,37 +1,12 @@
 # docker build -t devcontainer:latest -f .\.devcontainer\Dockerfile .
-FROM ubuntu:focal
+FROM ubuntu:jammy-20221003
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update && apt upgrade -y
 
 #basic tools
 RUN apt install -y \
-    apt-utils wget curl git sudo net-tools iputils-ping nmap file usbutils minicom
-
-# cmake
-ARG CMAKE_VERSION=3.24.0
-RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh \
-    -q -O /tmp/cmake-install.sh && chmod u+x /tmp/cmake-install.sh && mkdir /usr/bin/cmake \
-    && /tmp/cmake-install.sh --skip-license --prefix=/usr/bin/cmake && rm /tmp/cmake-install.sh
-
-#miktex
-RUN apt install -y apt-transport-https  ca-certificates  dirmngr  ghostscript  gnupg  gosu  make  perl
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
-RUN echo "deb http://miktex.org/download/ubuntu focal universe" | tee /etc/apt/sources.list.d/miktex.list
-
-RUN apt-get update && apt-get install -y --no-install-recommends miktex
-RUN miktexsetup finish
-RUN initexmf --set-config-value [MPM]AutoInstall=1
-
-# Latex (from https://github.com/blang/latex-docker/blob/master/Dockerfile.ubuntu)
-# RUN apt update && apt install -qy git build-essential wget libfontconfig1 \
-#     && rm -rf /var/lib/apt/lists/*
-
-# RUN apt update -q && apt install -qy \
-#     texlive-full \
-#     python3-pygments gnuplot \
-#     && rm -rf /var/lib/apt/lists/*
-
+    apt-utils wget curl git sudo net-tools iputils-ping nmap file usbutils minicom cmake
 
 
 # pico stuff
@@ -61,9 +36,9 @@ RUN pip3 install \
     pylint autopep8 jupyter \
     pytest 
 
-RUN pip3 install plotly dash dash_bootstrap_components
-RUN pip3 install numba torch torchvision
-RUN pip3 install opencv-python opencv-contrib-python
+# RUN pip3 install plotly dash dash_bootstrap_components
+# RUN pip3 install numba torch torchvision
+# RUN pip3 install opencv-python opencv-contrib-python
 
 RUN pip3 install \
     pyserial \
