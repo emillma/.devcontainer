@@ -25,7 +25,7 @@
     "name": "mycontainer",
     "runArgs": [
         "--add-host=host.docker.internal:host-gateway",
-        "${localEnv:DEVCONTAINER_RUN_ARGS}"
+        "${localEnv:DEVCONTAINER_RUN_ARGS}",
         // "--net=host",
         // "--gpus=all",
         "--privileged",
