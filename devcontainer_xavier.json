@@ -17,27 +17,23 @@
         "nvidia.nsight-vscode-edition",
         "mhutchie.git-graph",
         "znck.grammarly",
-        "james-yu.latex-workshop",
-        "github.copilot",
-        "janisdd.vscode-edit-csv",
-        "marus25.cortex-debug"
     ],
     "name": "mycontainer",
     "runArgs": [
-        "--add-host=host.docker.internal:host-gateway",
-        "${localEnv:DEVCONTAINER_RUN_ARGS}"
-        // "--net=host",
         // "--gpus=all",
-        "--privileged",
+        // "--privileged",
         "--net=host",
-        "--device=/dev/spidev0.0",
-        "--runtime=nvidia"
+        "--runtime=nvidia",
         // "--ipc=host",
-        // "--device=/dev/bus/usb/001/002"
+        // "-e DISPLAY=172.27.240.1:0.0",
+        "--device=/dev/ttyUSB0",
     ],
-    // "remoteEnv": {DISPLAY},
-    "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
-    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py"
-    // "workspaceFolder": "/workspaces",
+    "remoteEnv": {
+        "DISPLAY": "172.28.240.1:0.0"
+    },
+    // "mounts": [
+    //     "type=volume,src=sensorrig,dst=/volumes/sensorrig"
+    // ],
+    // "workspaceFolder": "/workspace",
     // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
 }
