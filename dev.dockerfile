@@ -8,18 +8,13 @@ RUN apt update && apt upgrade -y
 RUN apt install -y \
     apt-utils wget curl git sudo net-tools iputils-ping nmap file usbutils minicom cmake
 
-# cmake
-ARG CMAKE_VERSION=3.24.0
-RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh \
-    -q -O /tmp/cmake-install.sh && chmod u+x /tmp/cmake-install.sh && mkdir /usr/bin/cmake \
-    && /tmp/cmake-install.sh --skip-license --prefix=/usr/bin/cmake && rm /tmp/cmake-install.sh
-
 # miktex (https://hub.docker.com/r/miktex/miktex/tags)
 RUN apt install -y locales && locale-gen ru_RU.UTF-8 && update-locale 
 RUN apt install -y apt-transport-https  ca-certificates  dirmngr  ghostscript  gnupg  gosu  make  perl
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
+RUN apt install -y lsb-release
 RUN echo "deb http://miktex.org/download/ubuntu $(lsb_release -c --short) universe" | tee /etc/apt/sources.list.d/miktex.list
-RUN apt-get update && apt-get install -y --no-install-recommends miktex 
+RUN apt update && apt install -y miktex 
 RUN miktexsetup finish \
     && initexmf --admin --set-config-value=[MPM]AutoInstall=1  \
     && mpm --admin --update-db  \
