@@ -25,6 +25,7 @@
     "name": "mycontainer",
     "runArgs": [
         "--add-host=host.docker.internal:host-gateway",
+        "${localEnv:DEVCONTAINER_RUN_ARGS}"
         // "--net=host",
         // "--gpus=all",
         // "--privileged",
@@ -33,7 +34,6 @@
         // "--runtime=nvidia",
         // "--ipc=host",
         // "--device=/dev/bus/usb/001/002"
-        "${localEnv:DEVCONTAINER_RUN_ARGS}"
     ],
     // "remoteEnv": {DISPLAY},
     "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",

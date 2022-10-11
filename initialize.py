@@ -37,8 +37,10 @@ if __name__ == '__main__':
     add_device_ACM()
 
     env = 'DEVCONTAINER_RUN_ARGS'
-    text = f"export {env}=\"{' '.join(RUN_ARGS)}\"\n"
-
+    if RUN_ARGS:
+        text = f"export {env}=\"{' '.join(RUN_ARGS)}\"\n"
+    else:
+        text = f'export {env}=--device=/dev/null\n'
     runenv_file = Path('/etc/profile.d/vscode_devcontainer_runenvs.sh')
     runenv_file.touch()
     old_text = runenv_file.read_text()
