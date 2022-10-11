@@ -1,17 +1,23 @@
 from pathlib import Path
-from subprocess import run
+from subprocess import run, CalledProcessError
 import re
 import time
+import shlex
+import json
+
+def run_cmd(cmd) -> str:
+    args = shlex.split(cmd)
+    return run(args, capture_output=True, check=True).stdout.decode('utf-8')
+
 
 RUN_ARGS = []
 
-
-def run_cmd(cmd) -> str:
-    return run(cmd, shell=True, capture_output=True, check=True
-               ).stdout.decode('utf-8')
-
-
 def usbipd():
+    try:
+        run_cmd('which powershelld.exe')
+    except CalledProcessError:
+        return
+    
     out = run_cmd('powershell.exe usbipd wsl list')
     for probe in out.splitlines():
         if ma := re.search(r'^(\d+-\d+).*Picoprobe.*Not attached', probe):
@@ -30,7 +36,9 @@ def add_device_ACM():
         RUN_ARGS.append(f'--device={acm}')
 
 
+
 if __name__ == '__main__':
+    
     usbipd()
     time.sleep(0.5)
     # add_device_picoprobe_usb()
