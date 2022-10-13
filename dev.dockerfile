@@ -8,21 +8,16 @@ RUN apt update && apt upgrade -y
 RUN apt install -y \
     apt-utils wget curl git sudo net-tools iputils-ping nmap file usbutils minicom cmake
 
-# miktex (https://hub.docker.com/r/miktex/miktex/tags)
-RUN apt install -y locales && locale-gen ru_RU.UTF-8 && update-locale 
-RUN apt install -y apt-transport-https  ca-certificates  dirmngr  ghostscript  gnupg  gosu  make  perl
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
-RUN apt install -y lsb-release
-RUN echo "deb http://miktex.org/download/ubuntu $(lsb_release -c --short) universe" | tee /etc/apt/sources.list.d/miktex.list
-RUN apt update && apt install -y miktex 
-RUN miktexsetup finish \
-    && initexmf --admin --set-config-value=[MPM]AutoInstall=1  \
-    && mpm --admin --update-db  \
-    && mpm --admin --install amsfonts --install biber-linux-x86_64 \
-    && initexmf --admin --update-fndb
+# Latex (from https://github.com/blang/latex-docker/blob/master/Dockerfile.ubuntu)
+RUN apt install -y locales && locale-gen en_US.UTF-8 && update-locale 
+RUN apt update && apt install -qy git build-essential wget libfontconfig1 
+RUN apt update -q && apt install -qy \
+    texlive-full \
+    python3-pygments gnuplot 
+
 
 ## for latex indent
-RUN PERL_MM_USE_DEFAULT=1 cpan YAML::Tiny File::HomeDir
+# RUN PERL_MM_USE_DEFAULT=1 cpan YAML::Tiny File::HomeDir
 RUN apt install fonts-firacode
 
 # to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
@@ -36,7 +31,7 @@ RUN cd ~/openocd && ./bootstrap && ./configure --enable-picoprobe && make -j4
 RUN apt install -y gdb-multiarch
 
 # install python stuff
-ARG python=python3.10
+ARG python=python3.9
 RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt update && apt install -y ${python} ${python}-distutils python3-pip 
 
@@ -63,10 +58,4 @@ RUN pip3 install \
     networkx \
     libcst \
     tqdm
-
-
-
-# for grammarly in vscode
-# RUN curl -s https://deb.nodesource.com/setup_18.x | sudo bash
-# RUN sudo apt install nodejs && npm install -g typescript pnpm sandboxed-module  
 
