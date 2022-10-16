@@ -1,23 +1,27 @@
 # docker build -t devcontainer:latest -f .\.devcontainer\Dockerfile .
-FROM ubuntu:latest
+FROM ubuntu:jammy-20221003
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update && apt upgrade -y
-RUN apt install -y apt-utils git
+
+# basic tools
+RUN apt install -y \
+    apt-utils wget curl git sudo net-tools iputils-ping nmap file usbutils minicom cmake
 
 # Latex (from https://github.com/blang/latex-docker/blob/master/Dockerfile.ubuntu)
-RUN apt update && apt install -qy git build-essential wget libfontconfig1 \
-    && rm -rf /var/lib/apt/lists/*
-
+RUN apt install -y locales && locale-gen en_US.UTF-8 && update-locale 
+RUN apt update && apt install -qy git build-essential wget libfontconfig1 
 RUN apt update -q && apt install -qy \
     texlive-full \
-    python3-pygments gnuplot \
-    && rm -rf /var/lib/apt/lists/*
+    python3-pygments gnuplot 
 
-# install basic stuff
-RUN apt update && apt -y upgrade \
-    && apt install -y \
-    wget curl git cmake sl sudo net-tools iputils-ping nmap file usbutils minicom
+
+## for latex indent
+# RUN PERL_MM_USE_DEFAULT=1 cpan YAML::Tiny File::HomeDir
+RUN apt install fonts-firacode
+
+# to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
+RUN printf "%s\n" 'alias pip3="DISPLAY= pip3"' "alias python=python3" > ~/.bash_aliases
 
 # pico stuff
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
@@ -27,20 +31,19 @@ RUN cd ~/openocd && ./bootstrap && ./configure --enable-picoprobe && make -j4
 RUN apt install -y gdb-multiarch
 
 # install python stuff
-RUN apt update && apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt update && apt install -y python3.9 python3.9-distutils
+ARG python=python3.9
+RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
+RUN apt update && apt install -y ${python} ${python}-distutils python3-pip 
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 \
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 \
     && update-alternatives --config python3
 
-# install pip
-RUN apt install -y python3-pip 
 
 # to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
 RUN printf "%s\n" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
 
 # install packages
-RUN pip3 install --upgrade pip
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | ${python}
 RUN pip3 install \
     numpy scipy matplotlib pyqt5 pandas sympy\
     pylint autopep8 jupyter \
@@ -55,11 +58,4 @@ RUN pip3 install \
     networkx \
     libcst \
     tqdm
-
-
-
-# for grammarly in vscode
-# RUN curl -s https://deb.nodesource.com/setup_18.x | sudo bash
-# RUN sudo apt install nodejs && npm install -g typescript pnpm sandboxed-module  
-RUN apt install fonts-firacode
 
