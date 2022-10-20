@@ -25,7 +25,10 @@
     "name": "mycontainer",
     "runArgs": [
         "--add-host=host.docker.internal:host-gateway",
-        "${localEnv:DEVCONTAINER_RUN_ARGS}"
+        "--cap-add=SYS_PTRACE",
+        "--security-opt",
+        "seccomp=unconfined",
+        // "${localEnv:DEVCONTAINER_RUN_ARGS}"
     ],
     "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
     "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",

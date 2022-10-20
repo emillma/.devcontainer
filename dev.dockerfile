@@ -32,6 +32,7 @@ RUN apt install -y gdb-multiarch
 
 # install python stuff
 ARG python=python3.9
+RUN apt install -y libmkl-dev
 RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt update && apt install -y ${python} ${python}-distutils python3-pip 
 
@@ -44,18 +45,23 @@ RUN printf "%s\n" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_
 
 # install packages
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | ${python}
+RUN apt-get install python3-dev
+RUN pip3 install mkl
+RUN pip3 install mkl_fft
+RUN pip3 install -i https://pypi.anaconda.org/intel/simple numpy
 RUN pip3 install \
-    numpy scipy matplotlib pyqt5 pandas sympy\
+    scipy matplotlib pyqt5 pandas sympy\
     pylint autopep8 jupyter \
     pytest 
 
-RUN pip3 install plotly dash dash_bootstrap_components
-RUN pip3 install numba torch torchvision
-RUN pip3 install opencv-python opencv-contrib-python
+# RUN pip3 install plotly dash dash_bootstrap_components
+# RUN pip3 install numba torch torchvision
+# RUN pip3 install opencv-python opencv-contrib-python
 
-RUN pip3 install \
-    pyserial \
-    networkx \
-    libcst \
-    tqdm
+# RUN pip3 install \
+#     pyserial \
+#     networkx \
+#     libcst \
+#     tqdm \
+#     pyarmor==6.8.1
 
