@@ -28,9 +28,10 @@
         "--cap-add=SYS_PTRACE",
         "--security-opt",
         "seccomp=unconfined",
+        // "--device=/dev/ACM0"
         // "${localEnv:DEVCONTAINER_RUN_ARGS}"
     ],
-    "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
+    // "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
     "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
     // "workspaceFolder": "/workspaces"
     // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",

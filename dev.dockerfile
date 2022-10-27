@@ -1,5 +1,7 @@
 # docker build -t devcontainer:latest -f .\.devcontainer\Dockerfile .
-FROM ubuntu:jammy-20221003
+# FROM ubuntu:jammy-20221003
+
+FROM nvidia/cuda:11.7.0-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update && apt upgrade -y
@@ -14,14 +16,10 @@ RUN apt update && apt install -qy git build-essential wget libfontconfig1
 RUN apt update -q && apt install -qy \
     texlive-full \
     python3-pygments gnuplot 
-
+RUN apt install fonts-firacode
 
 ## for latex indent
 # RUN PERL_MM_USE_DEFAULT=1 cpan YAML::Tiny File::HomeDir
-RUN apt install fonts-firacode
-
-# to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
-RUN printf "%s\n" 'alias pip3="DISPLAY= pip3"' "alias python=python3" > ~/.bash_aliases
 
 # pico stuff
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
@@ -31,28 +29,42 @@ RUN cd ~/openocd && ./bootstrap && ./configure --enable-picoprobe && make -j4
 RUN apt install -y gdb-multiarch
 
 # install python stuff
-ARG python=python3.9
-RUN apt install -y libmkl-dev
-RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt update && apt install -y ${python} ${python}-distutils python3-pip 
+ARG envname=dev
+RUN mkdir -p ~/miniconda3 && wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+RUN bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+RUN rm -rf ~/miniconda3/miniconda.sh
+RUN ~/miniconda3/bin/conda init bash && ~/miniconda3/bin/conda init zsh
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 \
-    && update-alternatives --config python3
+RUN ~/miniconda3/bin/conda create -y -n ${envname} -c conda-forge python=3.10
+RUN ~/miniconda3/bin/conda install -y -n ${envname} pylint black ipykernel
+
+RUN ~/miniconda3/bin/conda install -y -n ${envname} numpy scipy pandas 
+RUN ~/miniconda3/bin/conda install -y -n ${envname} numba pybind11
+
+RUN ~/miniconda3/bin/conda install -y -n ${envname} sympy sphinx jinja2
+
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "nvidia/label/cuda-11.8.0" cuda-toolkit
+RUN ~/miniconda3/bin/conda install -y -n ${envname} pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch-nightly -c nvidia
+
+RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
+
+# RUN apt install -y libgmp-dev
+RUN ~/miniconda3/envs/${envname}/bin/pip install symforce
+
+# RUN git 
+# RUN ~/miniconda3/bin/conda activate dev && pip install symforce
 
 
-# to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
-RUN printf "%s\n" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
+# RUN ~/miniconda3/bin/conda install -y -n dev pytest tqdm pyserial
+# RUN ~/miniconda3/bin/conda install -y -n dev plotly dash dash_bootstrap_components
 
-# install packages
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | ${python}
-RUN apt-get install python3-dev
-RUN pip3 install mkl
-RUN pip3 install mkl_fft
-RUN pip3 install -i https://pypi.anaconda.org/intel/simple numpy
-RUN pip3 install \
-    scipy matplotlib pyqt5 pandas sympy\
-    pylint autopep8 jupyter \
-    pytest 
+# RUN ~/miniconda3/bin/conda install -y -n dev torch torchvision torchaudio
+# RUN ~/miniconda3/bin/conda install -y -n dev opencv-python opencv-contrib-python
+
+# RUN ~/miniconda3/bin/conda install -y -n dev pyarmor==6.8.1
+
+
+
 
 # RUN pip3 install plotly dash dash_bootstrap_components
 # RUN pip3 install numba torch torchvision
