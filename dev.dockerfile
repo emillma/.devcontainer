@@ -11,11 +11,11 @@ RUN apt install -y \
     apt-utils wget curl git sudo net-tools iputils-ping nmap file usbutils minicom cmake
 
 # Latex (from https://github.com/blang/latex-docker/blob/master/Dockerfile.ubuntu)
-RUN apt install -y locales && locale-gen en_US.UTF-8 && update-locale 
-RUN apt update && apt install -qy git build-essential wget libfontconfig1 
+RUN apt install -y locales && locale-gen en_US.UTF-8 && update-locale
+RUN apt update && apt install -qy git build-essential wget libfontconfig1
 RUN apt update -q && apt install -qy \
     texlive-full \
-    python3-pygments gnuplot 
+    python3-pygments gnuplot
 RUN apt install fonts-firacode
 
 ## for latex indent
@@ -38,7 +38,7 @@ RUN ~/miniconda3/bin/conda init bash && ~/miniconda3/bin/conda init zsh
 RUN ~/miniconda3/bin/conda create -y -n ${envname} -c conda-forge python=3.10
 RUN ~/miniconda3/bin/conda install -y -n ${envname} pylint black ipykernel
 
-RUN ~/miniconda3/bin/conda install -y -n ${envname} numpy scipy pandas 
+RUN ~/miniconda3/bin/conda install -y -n ${envname} numpy scipy pandas
 RUN ~/miniconda3/bin/conda install -y -n ${envname} numba pybind11
 
 RUN ~/miniconda3/bin/conda install -y -n ${envname} sympy sphinx jinja2
@@ -46,12 +46,17 @@ RUN ~/miniconda3/bin/conda install -y -n ${envname} sympy sphinx jinja2
 # RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "nvidia/label/cuda-11.8.0" cuda-toolkit
 RUN ~/miniconda3/bin/conda install -y -n ${envname} pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch-nightly -c nvidia
 
-RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
-
-# RUN apt install -y libgmp-dev
 RUN ~/miniconda3/envs/${envname}/bin/pip install symforce
 
-# RUN git 
+RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
+RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "dash>=2.5" dash-bootstrap-components
+
+RUN apt update && apt install nodejs npm
+RUN npm install -g plotly.js-dist
+
+# RUN apt install -y libgmp-dev
+
+# RUN git
 # RUN ~/miniconda3/bin/conda activate dev && pip install symforce
 
 
