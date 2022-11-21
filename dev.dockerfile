@@ -53,7 +53,9 @@ RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "dash>=2.5" dash-bootstra
 
 RUN apt update && apt install nodejs npm
 RUN npm install -g plotly.js-dist
+RUN npm install -g @types/plotly.js-dist-min
 
+RUN cd ~ && git clone https://gitlab.com/libeigen/eigen.git $$ git clone https://github.com/pybind/pybind11.git
 # RUN apt install -y libgmp-dev
 
 # RUN git
