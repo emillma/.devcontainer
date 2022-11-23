@@ -54,7 +54,8 @@ RUN apt update && apt -y install nodejs npm
 RUN npm install -g plotly.js-dist
 RUN npm install -g @types/plotly.js-dist-min
 
-# RUN apt install -y libgmp-dev
+RUN apt install -y libgmp-dev
+RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge gcc cyton argh
 
 # RUN git
 # RUN ~/miniconda3/bin/conda activate dev && pip install symforce
