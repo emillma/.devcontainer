@@ -46,16 +46,14 @@ RUN ~/miniconda3/bin/conda install -y -n ${envname} sympy sphinx jinja2
 # RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "nvidia/label/cuda-11.8.0" cuda-toolkit
 RUN ~/miniconda3/bin/conda install -y -n ${envname} pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch-nightly -c nvidia
 
-RUN ~/miniconda3/envs/${envname}/bin/pip install symforce
 
 RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
-RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "dash>=2.5" dash-bootstrap-components
+RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge "dash>=2.5" dash-bootstrap-components
 
-RUN apt update && apt install nodejs npm
+RUN apt update && apt -y install nodejs npm
 RUN npm install -g plotly.js-dist
 RUN npm install -g @types/plotly.js-dist-min
 
-RUN cd ~ && git clone https://gitlab.com/libeigen/eigen.git $$ git clone https://github.com/pybind/pybind11.git
 # RUN apt install -y libgmp-dev
 
 # RUN git
