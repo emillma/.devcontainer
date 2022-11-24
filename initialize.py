@@ -7,30 +7,29 @@ RUN_ARGS = []
 
 
 def run_cmd(cmd) -> str:
-    return run(cmd, shell=True, capture_output=True, check=True
-               ).stdout.decode('utf-8')
+    return run(cmd, shell=True, capture_output=True, check=True).stdout.decode("utf-8")
 
 
 def usbipd():
-    out = run_cmd('powershell.exe usbipd wsl list')
+    out = run_cmd("powershell.exe usbipd wsl list")
     for probe in out.splitlines():
-        if ma := re.search(r'^(\d+-\d+).*Picoprobe.*Not attached', probe):
-            run_cmd(f'powershell.exe gsudo usbipd wsl attach --busid {ma[1]}')
+        if ma := re.search(r"^(\d+-\d+).*Picoprobe.*Not attached", probe):
+            run_cmd(f"powershell.exe gsudo usbipd wsl attach --busid {ma[1]}")
 
 
 def add_device_picoprobe_usb():
-    out = run_cmd('lsusb')
+    out = run_cmd("lsusb")
     for probe in out.splitlines():
-        if ma := re.search(r'(\d{3}).*?(\d{3}).*Picoprobe', probe):
+        if ma := re.search(r"(\d{3}).*?(\d{3}).*Picoprobe", probe):
             RUN_ARGS.append(f'--device="/dev/bus/usb/{ma[1]}/{ma[2]}"')
 
 
 def add_device_ACM():
-    for acm in Path('/dev').glob('ttyACM*'):
-        RUN_ARGS.append(f'--device={acm}')
+    for acm in Path("/dev").glob("ttyACM*"):
+        RUN_ARGS.append(f"--device={acm}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     usbipd()
     # time.sleep(0.5)
     # add_device_picoprobe_usb()

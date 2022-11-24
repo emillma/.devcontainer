@@ -56,7 +56,7 @@ RUN npm install -g @types/plotly.js-dist-min
 
 RUN apt install -y libgmp-dev
 RUN ~/miniconda3/bin/conda install -y -n ${envname} -c anaconda cython
-RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge argh gcc
+RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge argh
 RUN ~/miniconda3/envs/${envname}/bin/pip install skymarshal
 # RUN git
 # RUN ~/miniconda3/bin/conda activate dev && pip install symforce
