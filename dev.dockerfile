@@ -23,42 +23,78 @@ RUN apt install fonts-firacode
 
 # pico stuff
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
+
 RUN apt install -y automake autoconf build-essential texinfo libtool libftdi-dev libusb-1.0-0-dev  pkg-config minicom
 RUN cd ~ && git clone https://github.com/raspberrypi/openocd.git --branch rp2040 --depth=1 --no-single-branch
 RUN cd ~/openocd && ./bootstrap && ./configure --enable-picoprobe && make -j4
 RUN apt install -y gdb-multiarch
 
 # install python stuff
-ARG envname=dev
-RUN mkdir -p ~/miniconda3 && wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-RUN bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-RUN rm -rf ~/miniconda3/miniconda.sh
-RUN ~/miniconda3/bin/conda init bash && ~/miniconda3/bin/conda init zsh
+ARG python=python3.10
+RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
+RUN apt update && apt install -y ${python} ${python}-distutils ${python}-dev python3-pip
 
-RUN ~/miniconda3/bin/conda create -y -n ${envname} -c conda-forge python=3.10
-RUN ~/miniconda3/bin/conda install -y -n ${envname} pylint black ipykernel
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 \
+    && update-alternatives --config python3
 
-RUN ~/miniconda3/bin/conda install -y -n ${envname} numpy scipy pandas
-RUN ~/miniconda3/bin/conda install -y -n ${envname} numba pybind11
+# to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
+RUN printf "%s\n" "alias pip=pip3" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
 
-RUN ~/miniconda3/bin/conda install -y -n ${envname} sympy sphinx jinja2
+# RUN curl -sS https://bootstrap.pypa.io/get-pip.py | ${python}
+# RUN apt-get install python3-dev
 
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "nvidia/label/cuda-11.8.0" cuda-toolkit
-RUN ~/miniconda3/bin/conda install -y -n ${envname} pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch-nightly -c nvidia
+# install packages
+RUN pip install -i https://pypi.anaconda.org/intel/simple --extra-index-url https://pypi.org/simple numpy==1.21.4 scipy==1.7.3
+RUN pip install pylint black ipykernel
 
 
-RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
-RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge "dash>=2.5" dash-bootstrap-components
+RUN apt install -y libgmp-dev clang-format
+RUN pip install jinja2
+RUN pip install sympy
+RUN pip install install skymarshal Cython argh
+RUN pip install matplotlib
 
-RUN apt update && apt -y install nodejs npm
-RUN npm install -g plotly.js-dist
-RUN npm install -g @types/plotly.js-dist-min
+RUN mkdir /include && cd /include && git clone https://github.com/pybind/pybind11.git && git clone
+# RUN pip install meson
+# RUN pip install -i https://pypi.anaconda.org/intel/simple numpy
 
-RUN apt install -y libgmp-dev
-RUN ~/miniconda3/bin/conda install -y -n ${envname} -c anaconda cython
-RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge argh
-RUN ~/miniconda3/envs/${envname}/bin/pip install skymarshal
-# RUN git
+# RUN pip install \
+#     scipy matplotlib pyqt5 pandas sympy\
+#     pylint autopep8 jupyter \
+#     pytest
+
+
+
+# ARG envname=dev
+# RUN mkdir -p ~/miniconda3 && wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+# RUN bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+# RUN rm -rf ~/miniconda3/miniconda.sh
+# RUN ~/miniconda3/bin/conda init bash && ~/miniconda3/bin/conda init zsh
+
+# RUN ~/miniconda3/bin/conda create -y -n ${envname} -c conda-forge python=3.10
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} pylint black ipykernel
+
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} numpy scipy pandas
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} numba pybind11
+
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} sympy sphinx jinja2
+
+# # RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "nvidia/label/cuda-11.8.0" cuda-toolkit
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch-nightly -c nvidia
+
+
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge "dash>=2.5" dash-bootstrap-components
+
+# RUN apt update && apt -y install nodejs npm
+# RUN npm install -g plotly.js-dist
+# RUN npm install -g @types/plotly.js-dist-min
+
+# RUN apt install -y libgmp-dev
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} -c anaconda cython
+# RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge argh
+# RUN ~/miniconda3/envs/${envname}/bin/pip install skymarshal
+# # RUN git
 # RUN ~/miniconda3/bin/conda activate dev && pip install symforce
 
 
