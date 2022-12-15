@@ -1,6 +1,5 @@
 {
-    // "image": "devcontainer:latest",
-    "image": "emillmasensorrig:latest",
+    "image": "devcontainer:latest",
     "forwardPorts": [
         3000,
         8050
@@ -20,7 +19,8 @@
         "james-yu.latex-workshop",
         "github.copilot",
         "janisdd.vscode-edit-csv",
-        "marus25.cortex-debug"
+        "marus25.cortex-debug",
+        "bungcip.better-toml"
     ],
     "name": "mycontainer",
     "runArgs": [

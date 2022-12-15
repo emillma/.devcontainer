@@ -18,9 +18,6 @@ RUN apt update -q && apt install -qy \
     python3-pygments gnuplot
 RUN apt install fonts-firacode
 
-## for latex indent
-# RUN PERL_MM_USE_DEFAULT=1 cpan YAML::Tiny File::HomeDir
-
 # pico stuff
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib iputils-ping
 
@@ -40,83 +37,26 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 
 # to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
 RUN printf "%s\n" "alias pip=pip3" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
 
-# RUN curl -sS https://bootstrap.pypa.io/get-pip.py | ${python}
-# RUN apt-get install python3-dev
+# general python stuff
+RUN pip install black mypy pylint autopep8 jupyter pytest
 
-# install packages
+# mkl enabled numpy and scipy
 RUN pip install -i https://pypi.anaconda.org/intel/simple --extra-index-url https://pypi.org/simple numpy==1.21.4 scipy==1.7.3
-RUN pip install pylint black ipykernel
 
-
+# for symforce
 RUN apt install -y libgmp-dev clang-format
-RUN pip install jinja2
+RUN pip install jinja2 
 RUN pip install sympy
 RUN pip install install skymarshal Cython argh
 RUN pip install matplotlib
+RUN mkdir /include -p && cd /include && git clone https://github.com/pybind/pybind11.git && git clone https://gitlab.com/libeigen/eigen.git
 
-RUN mkdir /include && cd /include && git clone https://github.com/pybind/pybind11.git && git clone
-# RUN pip install meson
-# RUN pip install -i https://pypi.anaconda.org/intel/simple numpy
-
-# RUN pip install \
-#     scipy matplotlib pyqt5 pandas sympy\
-#     pylint autopep8 jupyter \
-#     pytest
+# for gpgui
+RUN mkdir /workspaces -p && cd /workspaces \
+    && git clone -b flask-request-patch https://github.com/vlabakje/async-dash.git \
+    && cd async-dash && pip install -e .
+RUN pip install dash dash-bootstrap-components dash-mantine-components plotly dash-extensions requests pandas 'quart>=0.18' websockets
 
 
 
-# ARG envname=dev
-# RUN mkdir -p ~/miniconda3 && wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-# RUN bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-# RUN rm -rf ~/miniconda3/miniconda.sh
-# RUN ~/miniconda3/bin/conda init bash && ~/miniconda3/bin/conda init zsh
-
-# RUN ~/miniconda3/bin/conda create -y -n ${envname} -c conda-forge python=3.10
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} pylint black ipykernel
-
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} numpy scipy pandas
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} numba pybind11
-
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} sympy sphinx jinja2
-
-# # RUN ~/miniconda3/bin/conda install -y -n ${envname} -c "nvidia/label/cuda-11.8.0" cuda-toolkit
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch-nightly -c nvidia
-
-
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge "dash>=2.5" dash-bootstrap-components
-
-# RUN apt update && apt -y install nodejs npm
-# RUN npm install -g plotly.js-dist
-# RUN npm install -g @types/plotly.js-dist-min
-
-# RUN apt install -y libgmp-dev
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} -c anaconda cython
-# RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge argh
-# RUN ~/miniconda3/envs/${envname}/bin/pip install skymarshal
-# # RUN git
-# RUN ~/miniconda3/bin/conda activate dev && pip install symforce
-
-
-# RUN ~/miniconda3/bin/conda install -y -n dev pytest tqdm pyserial
-# RUN ~/miniconda3/bin/conda install -y -n dev plotly dash dash_bootstrap_components
-
-# RUN ~/miniconda3/bin/conda install -y -n dev torch torchvision torchaudio
-# RUN ~/miniconda3/bin/conda install -y -n dev opencv-python opencv-contrib-python
-
-# RUN ~/miniconda3/bin/conda install -y -n dev pyarmor==6.8.1
-
-
-
-
-# RUN pip3 install plotly dash dash_bootstrap_components
-# RUN pip3 install numba torch torchvision
-# RUN pip3 install opencv-python opencv-contrib-python
-
-# RUN pip3 install \
-#     pyserial \
-#     networkx \
-#     libcst \
-#     tqdm \
-#     pyarmor==6.8.1
 
