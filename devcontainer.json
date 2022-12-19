@@ -20,7 +20,7 @@
         "github.copilot",
         "janisdd.vscode-edit-csv",
         "marus25.cortex-debug",
-        "bungcip.better-toml"
+        "dbaeumer.vscode-eslint"
     ],
     "name": "mycontainer",
     "runArgs": [
