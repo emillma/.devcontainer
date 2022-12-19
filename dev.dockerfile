@@ -1,5 +1,5 @@
 # docker build -t devcontainer:latest -f .\.devcontainer\Dockerfile .
-# FROM ubuntu:jammy-20221003
+# FROM ubuntu:jammy-20221003 @sha256:5318b4c5e142345feba0645960dcdf725b064aa95ac8679204f090b56d675a07
 
 FROM nvidia/cuda:11.7.0-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND noninteractive
@@ -60,7 +60,13 @@ RUN mkdir /include && cd /include \
     && git clone https://gitlab.com/libeigen/eigen.git \
     && git clone https://github.com/raspberrypi/pico-sdk.git --recurse-submodules
 
-RUN pip install "dash>=2.5" dash-bootstrap-components requests pandas plotly
+RUN cd /tmp \
+    && git clone https://github.com/vlabakje/async-dash.git -b flask-request-patch \
+    && cd async-dash && pip install . \
+    && cd .. \
+    && rm -rf async-dash
+
+RUN pip install "dash>=2.5" "quart>=0.18.3" dash-bootstrap-components dash-mantine-components dash-extensions requests pandas plotly websockets
 RUN apt update && apt -y install nodejs npm
 RUN npm install -g plotly.js-dist @types/plotly.js-dist-min eslint
 RUN pip install "python-socketio[client]" "python-socketio[asyncio_client]"
