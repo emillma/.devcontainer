@@ -20,7 +20,8 @@
         "james-yu.latex-workshop",
         "github.copilot",
         "janisdd.vscode-edit-csv",
-        "marus25.cortex-debug"
+        "marus25.cortex-debug",
+        "dbaeumer.vscode-eslint"
     ],
     "name": "mycontainer",
     "runArgs": [

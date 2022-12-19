@@ -33,6 +33,7 @@ RUN apt install -y gdb-multiarch
 ARG python=python3.10
 RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt update && apt install -y ${python} ${python}-distutils ${python}-dev python3-pip
+RUN pip install --upgrade pip setuptools
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 \
     && update-alternatives --config python3
@@ -54,7 +55,16 @@ RUN pip install sympy
 RUN pip install install skymarshal Cython argh
 RUN pip install matplotlib
 
-RUN mkdir /include && cd /include && git clone https://github.com/pybind/pybind11.git && git clone
+RUN mkdir /include && cd /include \
+    && git clone https://github.com/pybind/pybind11.git \
+    && git clone https://gitlab.com/libeigen/eigen.git \
+    && git clone https://github.com/raspberrypi/pico-sdk.git --recurse-submodules
+
+RUN pip install "dash>=2.5" dash-bootstrap-components requests pandas plotly
+RUN apt update && apt -y install nodejs npm
+RUN npm install -g plotly.js-dist @types/plotly.js-dist-min eslint
+RUN pip install "python-socketio[client]" "python-socketio[asyncio_client]"
+
 # RUN pip install meson
 # RUN pip install -i https://pypi.anaconda.org/intel/simple numpy
 
@@ -86,9 +96,6 @@ RUN mkdir /include && cd /include && git clone https://github.com/pybind/pybind1
 # RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
 # RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge "dash>=2.5" dash-bootstrap-components
 
-# RUN apt update && apt -y install nodejs npm
-# RUN npm install -g plotly.js-dist
-# RUN npm install -g @types/plotly.js-dist-min
 
 # RUN apt install -y libgmp-dev
 # RUN ~/miniconda3/bin/conda install -y -n ${envname} -c anaconda cython
