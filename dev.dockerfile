@@ -60,7 +60,12 @@ RUN mkdir /include && cd /include \
     && git clone https://gitlab.com/libeigen/eigen.git \
     && git clone https://github.com/raspberrypi/pico-sdk.git --recurse-submodules
 
-RUN pip install "dash>=2.5" dash-bootstrap-components requests pandas plotly
+RUN cd /include \
+    && git clone -b flask-request-patch https://github.com/vlabakje/async-dash.git \
+    && cd async-dash && pip install . \
+    && cd /include && rm -rf async-dash
+
+RUN pip install "dash>=2.5" "quart>=0.18.3" dash-bootstrap-components dash_mantine_components requests pandas plotly websockets
 RUN apt update && apt -y install nodejs npm
 RUN npm install -g plotly.js-dist @types/plotly.js-dist-min eslint
 RUN pip install "python-socketio[client]" "python-socketio[asyncio_client]"
