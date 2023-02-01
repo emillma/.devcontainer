@@ -1,5 +1,6 @@
 {
-    "image": "devcontainer:latest",
+    // "image": "devcontainer:latest",
+    "image": "emillmasensorrig:latest",
     "forwardPorts": [
         3000,
         8050
@@ -19,21 +20,24 @@
         "james-yu.latex-workshop",
         "github.copilot",
         "janisdd.vscode-edit-csv",
-        "marus25.cortex-debug",
-        "dbaeumer.vscode-eslint"
+        "marus25.cortex-debug"
     ],
     "name": "mycontainer",
     "runArgs": [
         "--add-host=host.docker.internal:host-gateway",
-        "--cap-add=SYS_PTRACE",
-        "--security-opt",
-        "seccomp=unconfined",
-        "--gpus=all"
-        // "--device=/dev/ACM0"
-        // "${localEnv:DEVCONTAINER_RUN_ARGS}"
+        "${localEnv:DEVCONTAINER_RUN_ARGS}",
+        // "--net=host",
+        // "--gpus=all",
+        "--privileged",
+        "--net=host",
+        "--device=/dev/spidev0.0",
+        "--runtime=nvidia"
+        // "--ipc=host",
+        // "--device=/dev/bus/usb/001/002"
     ],
+    // "remoteEnv": {DISPLAY},
     // "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
-    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
-    // "workspaceFolder": "/workspaces"
+    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py"
+    // "workspaceFolder": "/workspaces",
     // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
 }

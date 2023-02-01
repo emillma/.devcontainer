@@ -20,12 +20,12 @@ for path in Path("/workspaces").rglob("*"):
 run_cmd('git config --global user.email "emil.martens@gmail.com"')
 run_cmd('git config --global user.name "Emil Martens"')
 run_cmd("git config --global core.fileMode false")
-run_cmd("git config --global core.autocrlf false")
+run_cmd("git config --global core.autocrlf input")
 run_cmd("git config --global core.eol lf")
 
-run_cmd('pip install -e `find /  -type d -wholename "*/vitass/hwlib"`')
+# run_cmd('pip install -e `find /  -type d -wholename "*/vitass/hwlib"`')
 
 bashrc = Path.home().joinpath(".bashrc")
 append(bashrc, "export DISPLAY=host.docker.internal:0.0")
 append(bashrc, "export LIBGL_ALWAYS_INDIRECT=1")
-append(bashrc, "conda activate dev")
+# append(bashrc, "conda activate dev")
