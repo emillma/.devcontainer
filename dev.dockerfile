@@ -1,5 +1,5 @@
 # docker build -t devcontainer:latest -f .\.devcontainer\Dockerfile .
-# FROM ubuntu:jammy-20221003
+# FROM ubuntu:jammy-20221003 @sha256:5318b4c5e142345feba0645960dcdf725b064aa95ac8679204f090b56d675a07
 
 FROM nvidia/cuda:11.7.0-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND noninteractive
@@ -33,6 +33,7 @@ RUN apt install -y gdb-multiarch
 ARG python=python3.10
 RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt update && apt install -y ${python} ${python}-distutils ${python}-dev python3-pip
+RUN pip install --upgrade pip setuptools
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 \
     && update-alternatives --config python3
@@ -40,21 +41,35 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 
 # to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
 RUN printf "%s\n" "alias pip=pip3" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
 
-# RUN curl -sS https://bootstrap.pypa.io/get-pip.py | ${python}
-# RUN apt-get install python3-dev
+# general python stuff
+RUN pip install black mypy pylint autopep8 jupyter pytest
 
-# install packages
+# mkl enabled numpy and scipy
 RUN pip install -i https://pypi.anaconda.org/intel/simple --extra-index-url https://pypi.org/simple numpy==1.21.4 scipy==1.7.3
 RUN pip install pylint black ipykernel
 
-
+# for symforce
 RUN apt install -y libgmp-dev clang-format
 RUN pip install jinja2
 RUN pip install sympy
 RUN pip install install skymarshal Cython argh
 RUN pip install matplotlib
 
-RUN mkdir /include && cd /include && git clone https://github.com/pybind/pybind11.git && git clone
+RUN mkdir /include && cd /include \
+    && git clone https://github.com/pybind/pybind11.git \
+    && git clone https://gitlab.com/libeigen/eigen.git \
+    && git clone https://github.com/raspberrypi/pico-sdk.git --recurse-submodules
+
+RUN cd /include \
+    && git clone -b flask-request-patch https://github.com/vlabakje/async-dash.git \
+    && cd async-dash && pip install . \
+    && cd /include && rm -rf async-dash
+
+RUN pip install "dash>=2.5" "quart>=0.18.3" dash-bootstrap-components dash_mantine_components requests pandas plotly websockets
+RUN apt update && apt -y install nodejs npm
+RUN npm install -g plotly.js-dist @types/plotly.js-dist-min eslint
+RUN pip install "python-socketio[client]" "python-socketio[asyncio_client]"
+
 # RUN pip install meson
 # RUN pip install -i https://pypi.anaconda.org/intel/simple numpy
 
@@ -86,9 +101,6 @@ RUN mkdir /include && cd /include && git clone https://github.com/pybind/pybind1
 # RUN ~/miniconda3/bin/conda install -y -n ${envname} matplotlib
 # RUN ~/miniconda3/bin/conda install -y -n ${envname} -c conda-forge "dash>=2.5" dash-bootstrap-components
 
-# RUN apt update && apt -y install nodejs npm
-# RUN npm install -g plotly.js-dist
-# RUN npm install -g @types/plotly.js-dist-min
 
 # RUN apt install -y libgmp-dev
 # RUN ~/miniconda3/bin/conda install -y -n ${envname} -c anaconda cython
@@ -109,14 +121,4 @@ RUN mkdir /include && cd /include && git clone https://github.com/pybind/pybind1
 
 
 
-# RUN pip3 install plotly dash dash_bootstrap_components
-# RUN pip3 install numba torch torchvision
-# RUN pip3 install opencv-python opencv-contrib-python
-
-# RUN pip3 install \
-#     pyserial \
-#     networkx \
-#     libcst \
-#     tqdm \
-#     pyarmor==6.8.1
 
