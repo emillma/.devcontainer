@@ -20,7 +20,7 @@ for path in Path("/workspaces").rglob("*"):
 run_cmd('git config --global user.email "emil.martens@gmail.com"')
 run_cmd('git config --global user.name "Emil Martens"')
 run_cmd("git config --global core.fileMode false")
-run_cmd("git config --global core.autocrlf true")
+run_cmd("git config --global core.autocrlf input")
 run_cmd("git config --global core.eol lf")
 
 # run_cmd('pip install -e `find /  -type d -wholename "*/vitass/hwlib"`')
