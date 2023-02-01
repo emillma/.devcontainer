@@ -29,8 +29,8 @@ def add_device_ACM():
         RUN_ARGS.append(f"--device={acm}")
 
 
-if __name__ == "__main__":
-    usbipd()
+# if __name__ == "__main__":
+    # usbipd()
     # time.sleep(0.5)
     # add_device_picoprobe_usb()
     # add_device_ACM()
