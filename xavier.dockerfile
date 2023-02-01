@@ -33,8 +33,11 @@ RUN cd /home/arena \
     && pip3 install ../${arena_whl_file} 
 
 
-RUN apt install ethtool
+RUN apt install ethtool 
 RUN pip3 install --upgrade pip && pip3 install \
-    pylint numpy pandas plotly dash autopep8 dash_bootstrap_components opencv-contrib-python spidev Jetson.GPIO pylint numba pyubx2
+    pylint numpy pandas plotly dash autopep8 \
+    dash_bootstrap_components opencv-contrib-python \
+    spidev Jetson.GPIO pylint numba pyubx2 \
+    ifcfg
 
 COPY .gitconfig /home/

@@ -1,6 +1,6 @@
 {
     // "image": "devcontainer:latest",
-    "image": "devcontainer:latest",
+    "image": "emillmasensorrig:latest",
     "forwardPorts": [
         3000,
         8050
