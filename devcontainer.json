@@ -1,6 +1,6 @@
 {
     // "image": "devcontainer:latest",
-    "image": "emillmasensorrig:latest",
+    "image": "sensorrig:current",
     "forwardPorts": [
         3000,
         8050
@@ -25,8 +25,7 @@
     "name": "mycontainer",
     "runArgs": [
         "--add-host=host.docker.internal:host-gateway",
-        "${localEnv:DEVCONTAINER_RUN_ARGS}",
-        // "--net=host",
+        // "${localEnv:DEVCONTAINER_RUN_ARGS}",
         // "--gpus=all",
         "--privileged",
         "--net=host",
@@ -35,6 +34,10 @@
         // "--ipc=host",
         // "--device=/dev/bus/usb/001/002"
     ],
+    // mount /run/jtop.sock to /run/jtop.sock as volume
+    // "mounts": [
+    //     "source=/run/jtop.sock,target=/run/jtop.sock,type=volume"
+    // ],
     // "remoteEnv": {DISPLAY},
     // "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
     "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py"

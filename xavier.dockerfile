@@ -1,43 +1,43 @@
 
 # docker build -t devcontainer:latest -f .\.devcontainer\Dockerfile .
 FROM nvcr.io/nvidia/l4t-base:r32.6.1
+ENV DEBIAN_FRONTEND noninteractive
 
 # install basic stuff
-RUN apt-get update && apt-get -y upgrade \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    apt-utils curl git cmake sl sudo net-tools nmap 
+RUN apt update && apt -y upgrade \
+    && apt install -y apt-utils curl git cmake sl sudo net-tools nmap build-essential
 
-
-
-# install python stuff
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3.8 python3.8-dev
-# set py 3.8 to default
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1 \
-    && update-alternatives --config python3
-# install pip
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip 
-# to fix annoying pip xserver bug (https://github.com/pypa/pip/issues/8485)
-RUN printf "%s\n" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
-# install packages
-
-# install arena_sdk
-# remember to apt install file to let the python lib understand that the so is a symbolic link to the ARM linked library
-RUN apt-get install file
-ARG arena_skd_file=ArenaSDK_v0.1.43_Linux_ARM64.tar.gz
-ARG arena_whl_file=arena_api-2.1.4-py3-none-any.whl
-COPY .devcontainer/files/${arena_skd_file} /home/arena/ArenaSDK_Linux.tar.gz
-COPY .devcontainer/files/${arena_whl_file} /home/arena/${arena_whl_file}
+# remember to install file
+RUN apt install file
+RUN mkdir /home/arena
+COPY files/ArenaSDK_v0.1.49_Linux_ARM64.tar.gz /home/arena/ArenaSDK_Linux.tar.gz
 RUN cd /home/arena \
     && tar -xvzf ArenaSDK_Linux.tar.gz \
-    && cd ArenaSDK_Linux_ARM64 && sh Arena_SDK_ARM64.conf \
-    && pip3 install ../${arena_whl_file} 
+    && cd ArenaSDK_Linux_ARM64 && sh Arena_SDK_ARM64.conf
+
+# install python stuff
+ARG python=python3.11
+RUN apt install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa
+RUN apt install -y ${python} ${python}-dev ${python}-distutils
+
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 \
+    && update-alternatives --config python3
+
+# install pip
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | ${python}
+
+RUN pip install --upgrade pip wheel setuptools
+
+RUN pip install black mypy pylint autopep8 jupyter pytest
+RUN pip install numpy 
+RUN pip install opencv-contrib-python
+
+RUN pip install ifcfg 
+RUN apt install ethtool ptpd
+
+RUN pip install spidev Jetson.GPIO pyubx2
+
+COPY files/arena_api-2.3.3-py3-none-any.whl /home/arena/arena_api-2.3.3-py3-none-any.whl
+RUN pip3 install ./home/arena/arena_api-2.3.3-py3-none-any.whl
 
 
-RUN apt install ethtool 
-RUN pip3 install --upgrade pip && pip3 install \
-    pylint numpy pandas plotly dash autopep8 \
-    dash_bootstrap_components opencv-contrib-python \
-    spidev Jetson.GPIO pylint numba pyubx2 \
-    ifcfg
-
-COPY .gitconfig /home/
