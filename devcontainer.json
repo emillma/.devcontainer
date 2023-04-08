@@ -1,6 +1,6 @@
 {
     // "image": "devcontainer:latest",
-    "image": "sensorrig:current",
+    "image": "xavier:latest",
     "forwardPorts": [
         3000,
         8050
@@ -17,19 +17,17 @@
         "nvidia.nsight-vscode-edition",
         "mhutchie.git-graph",
         "znck.grammarly",
-        "james-yu.latex-workshop",
         "github.copilot",
         "janisdd.vscode-edit-csv",
-        "marus25.cortex-debug"
     ],
     "name": "mycontainer",
     "runArgs": [
-        "--add-host=host.docker.internal:host-gateway",
+        // "--add-host=host.docker.internal:host-gateway",
         // "${localEnv:DEVCONTAINER_RUN_ARGS}",
         // "--gpus=all",
         "--privileged",
         "--net=host",
-        "--device=/dev/spidev0.0",
+        // "--device=/dev/spidev0.0",
         "--runtime=nvidia"
         // "--ipc=host",
         // "--device=/dev/bus/usb/001/002"
