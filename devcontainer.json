@@ -20,18 +20,17 @@
         "james-yu.latex-workshop",
         "github.copilot",
         "janisdd.vscode-edit-csv",
-        "marus25.cortex-debug"
     ],
     "name": "mycontainer",
     "runArgs": [
         "--add-host=host.docker.internal:host-gateway",
-        "${localEnv:DEVCONTAINER_RUN_ARGS}",
+        "--gpus=all",
+        // "${localEnv:DEVCONTAINER_RUN_ARGS}",
         // "--net=host",
-        // "--gpus=all",
-        "--privileged",
-        "--net=host",
-        "--device=/dev/spidev0.0",
-        "--runtime=nvidia"
+        // "--privileged",
+        // "--net=host",
+        // "--device=/dev/spidev0.0",
+        // "--runtime=nvidia"
         // "--ipc=host",
         // "--device=/dev/bus/usb/001/002"
     ],

@@ -30,7 +30,7 @@ RUN cd ~/openocd && ./bootstrap && ./configure --enable-picoprobe && make -j4
 RUN apt install -y gdb-multiarch
 
 # install python stuff
-ARG python=python3.10
+ARG python=python3.11
 RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt update && apt install -y ${python} ${python}-distutils ${python}-dev python3-pip
 RUN pip install --upgrade pip setuptools
@@ -42,19 +42,20 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1 
 RUN printf "%s\n" "alias pip=pip3" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
 
 # general python stuff
-RUN pip install black mypy pylint autopep8 jupyter pytest
+RUN pip install black mypy pylint autopep8 jupyter pytest pylint ipykernel
 
 # mkl enabled numpy and scipy
-RUN pip install -i https://pypi.anaconda.org/intel/simple --extra-index-url https://pypi.org/simple numpy==1.21.4 scipy==1.7.3
-RUN pip install pylint black ipykernel
+RUN pip install -i https://pypi.anaconda.org/intel/simple --extra-index-url https://pypi.org/simple numpy==1.22.3
+RUN pip install -i https://pypi.anaconda.org/intel/simple --extra-index-url https://pypi.org/simple scipy
+RUN pip install symforce
+RUN pip install opencv-python opencv-contrib-python ffmpeg-python
 
 # for symforce
-RUN apt install -y libgmp-dev clang-format
-RUN pip install jinja2
-RUN pip install sympy
-RUN pip install install skymarshal Cython argh
-RUN pip install matplotlib
-
+# RUN apt install -y libgmp-dev clang-format
+# RUN pip install jinja2
+# RUN pip install sympy
+# RUN pip install install skymarshal Cython argh
+# RUN pip install matplotlib
 RUN mkdir /include && cd /include \
     && git clone https://github.com/pybind/pybind11.git \
     && git clone https://gitlab.com/libeigen/eigen.git \
@@ -65,14 +66,15 @@ RUN cd /include \
     && cd async-dash && pip install . \
     && cd /include && rm -rf async-dash
 
-RUN pip install "dash>=2.5" "quart>=0.18.3" dash-bootstrap-components dash_mantine_components dash-player
-RUN pip install requests pandas plotly websockets
+RUN pip install "dash>=2.5" "quart>=0.18.3" 
+RUN pip install dash-bootstrap-components dash_mantine_components dash-player
+RUN SETUPTOOLS_USE_DISTUTILS=stdlib pip install dash-extensions
+RUN pip install requests pandas plotly websockets jinja2
 RUN apt update && apt -y install nodejs npm
 RUN npm install -g plotly.js-dist @types/plotly.js-dist-min eslint
 RUN pip install "python-socketio[client]" "python-socketio[asyncio_client]"
 
-RUN pip install opencv-python opencv-contrib-python ffmpeg-python
-
+RUN pip install pyserial-asyncio
 # RUN pip install meson
 # RUN pip install -i https://pypi.anaconda.org/intel/simple numpy
 
