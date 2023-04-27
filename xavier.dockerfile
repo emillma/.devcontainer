@@ -42,7 +42,6 @@ RUN pip install spidev Jetson.GPIO pyubx2
 
 COPY files/arena_api-2.3.3-py3-none-any.whl /home/arena/arena_api-2.3.3-py3-none-any.whl
 RUN pip3 install ./home/arena/arena_api-2.3.3-py3-none-any.whl
-
 # deepstream 
 # RUN apt install -y \
 #     libssl1.1 \
@@ -64,3 +63,13 @@ RUN python3 -m pip install --ignore-installed PyGObject
 RUN pip install pygobject-stubs
 
 RUN pip install cupy-cuda102 -f https://pip.cupy.dev/aarch64
+
+RUN mkdir /include && cd /include \
+    && git clone https://github.com/pybind/pybind11.git \
+    && git clone https://gitlab.com/libeigen/eigen.git 
+
+RUN ln -s /usr/local/cuda/lib64/libcudart.so.10.2 /usr/lib/libcudart.so
+RUN pip install cmake --upgrade
+RUN apt install -y gstreamer1.0-rtsp
+RUN apt install ethtool sympy
+RUN pip install python-dev
