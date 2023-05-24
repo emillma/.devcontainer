@@ -1,6 +1,6 @@
 {
     // "image": "devcontainer:latest",
-    "image": "xavier:latest",
+    "image": "xavier_ds:latest",
     "forwardPorts": [
         3000,
         8050
@@ -27,15 +27,18 @@
         // "--gpus=all",
         "--privileged",
         "--net=host",
+        "--runtime=nvidia",
+        "--pid=host"
+        // "-v /opt/nvidia/nsight-systems-cli/:/opt/nvidia/nsight-systems-cli"
         // "--device=/dev/spidev0.0",
-        "--runtime=nvidia"
         // "--ipc=host",
         // "--device=/dev/bus/usb/001/002"
     ],
     // mount /run/jtop.sock to /run/jtop.sock as volume
-    // "mounts": [
-    //     "source=/run/jtop.sock,target=/run/jtop.sock,type=volume"
-    // ],
+    "mounts": [
+        // "source=/run/jtop.sock,target=/run/jtop.sock,type=volume",
+        // "source=/opt/nvidia/nsight-systems-cli/,target=/opt/nvidia/nsight-systems-cli,type=volume"
+    ],
     // "remoteEnv": {DISPLAY},
     // "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
     "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py"
