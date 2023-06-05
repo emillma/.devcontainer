@@ -85,6 +85,17 @@ RUN apt install ethtool ptpd
 RUN pip install ifcfg 
 
 RUN pip install spidev Jetson.GPIO pyubx2
-RUN pip install websockets
 
-RUN apt install nsight-systems
+# RUN apt install -y nsight-systems
+
+# server stuff
+RUN cd /tmp \
+    && git clone -b flask-request-patch https://github.com/vlabakje/async-dash.git \
+    && cd async-dash && pip install . \
+    && cd /tmp && rm -rf async-dash
+
+RUN pip install "dash>=2.5" "quart>=0.18.3" 
+RUN pip install dash-bootstrap-components dash_mantine_components dash-player
+RUN SETUPTOOLS_USE_DISTUTILS=stdlib pip install dash-extensions
+RUN pip install requests pandas plotly websockets jinja2 aiohttp aiofiles pillow dash-iconify
+RUN pip install jetson-stats

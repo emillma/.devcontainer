@@ -29,6 +29,8 @@
         "--net=host",
         "--runtime=nvidia",
         "--pid=host"
+        // "--group-add $(getent group jtop | awk -F: '{print $3}')",
+        // "-v /run/jtop.sock:/run/jtop.sock"
         // "-v /opt/nvidia/nsight-systems-cli/:/opt/nvidia/nsight-systems-cli"
         // "--device=/dev/spidev0.0",
         // "--ipc=host",
@@ -36,7 +38,7 @@
     ],
     // mount /run/jtop.sock to /run/jtop.sock as volume
     "mounts": [
-        // "source=/run/jtop.sock,target=/run/jtop.sock,type=volume",
+        "source=/run/jtop.sock,target=/run/jtop.sock,type=bind"
         // "source=/opt/nvidia/nsight-systems-cli/,target=/opt/nvidia/nsight-systems-cli,type=volume"
     ],
     // "remoteEnv": {DISPLAY},
