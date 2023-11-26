@@ -22,8 +22,5 @@ run_cmd('git config --global user.name "Emil Martens"')
 run_cmd('git config --global core.fileMode false')
 run_cmd('git config --global core.autocrlf true')
 
-run_cmd('pip install -e `find /  -type d -wholename "*/vitass/hwlib"`')
+# run_cmd('pip install -e `find /  -type d -wholename "*/vitass/hwlib"`')
 
-bashrc = Path.home().joinpath('.bashrc')
-append(bashrc, 'export DISPLAY=host.docker.internal:0.0')
-append(bashrc, 'export LIBGL_ALWAYS_INDIRECT=1')

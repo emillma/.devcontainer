@@ -1,38 +1,50 @@
 {
     // "image": "devcontainer:latest",
-    "image": "devcontainer:latest",
+    "image": "nyhavna:latest",
+    "name": "mycontainer",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bradlc.vscode-tailwindcss",
+                "donjayamanne.githistory",
+                "editorconfig.editorconfig",
+                "github.copilot",
+                "janisdd.vscode-edit-csv",
+                "kevinrose.vsc-python-indent",
+                "mhutchie.git-graph",
+                "modular-mojotools.vscode-mojo",
+                "ms-azuretools.vscode-docker",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "ms-vscode-remote.remote-ssh",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cpptools",
+                "nvidia.nsight-vscode-edition",
+                "svelte.svelte-vscode",
+                "visualstudioexptteam.vscodeintellicode",
+                "znck.grammarly",
+                "james-yu.latex-workshop",
+            ]
+        }
+    },
+    "runArgs": [
+        "--gpus=all",
+        "--net=host",
+        "-eNVIDIA_DRIVER_CAPABILITIES=all",
+        // "--add-host=host.docker.internal:host-gateway",
+        // "--cap-add=SYS_PTRACE",
+        // "--security-opt",
+        // "seccomp=unconfined",
+        // "--device=/dev/ACM0"
+        // "${localEnv:DEVCONTAINER_RUN_ARGS}"
+    ],
     "forwardPorts": [
         3000,
         8050
     ],
-    "extensions": [
-        "ms-azuretools.vscode-docker",
-        "ms-vscode.cpptools",
-        "ms-vscode.cpptools-extension-pack",
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-vscode-remote.remote-ssh",
-        "kevinrose.vsc-python-indent",
-        "editorconfig.editorconfig",
-        "nvidia.nsight-vscode-edition",
-        "mhutchie.git-graph",
-        "znck.grammarly",
-        "james-yu.latex-workshop",
-        "github.copilot",
-        "janisdd.vscode-edit-csv",
-        "marus25.cortex-debug"
-    ],
-    "name": "mycontainer",
-    "runArgs": [
-        "--add-host=host.docker.internal:host-gateway",
-        "--cap-add=SYS_PTRACE",
-        "--security-opt",
-        "seccomp=unconfined",
-        // "--device=/dev/ACM0"
-        // "${localEnv:DEVCONTAINER_RUN_ARGS}"
-    ],
+    // "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
     // "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
-    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
     // "workspaceFolder": "/workspaces"
     // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
 }
