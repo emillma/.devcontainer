@@ -40,8 +40,8 @@
         // "${localEnv:DEVCONTAINER_RUN_ARGS}"
     ],
     "forwardPorts": [
-        3000,
-        8050
+        5173, // SvelteKit
+        5170, // WebSockets
     ],
     // "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
     // "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
