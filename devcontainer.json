@@ -1,25 +1,21 @@
 {
     // "image": "devcontainer:latest",
-    "image": "nyhavna:latest",
-    "name": "mycontainer",
+    "image": "devcontainer:latest",
+    "name": "devcontainer",
     "customizations": {
         "vscode": {
             "extensions": [
                 "bradlc.vscode-tailwindcss",
                 "donjayamanne.githistory",
-                "editorconfig.editorconfig",
                 "github.copilot",
                 "janisdd.vscode-edit-csv",
                 "kevinrose.vsc-python-indent",
                 "mhutchie.git-graph",
                 "modular-mojotools.vscode-mojo",
-                "ms-azuretools.vscode-docker",
                 "ms-python.python",
                 "ms-python.vscode-pylance",
                 "ms-toolsai.jupyter",
-                "ms-vscode-remote.remote-ssh",
                 "ms-vscode.cpptools-extension-pack",
-                "ms-vscode.cpptools",
                 "nvidia.nsight-vscode-edition",
                 "svelte.svelte-vscode",
                 "visualstudioexptteam.vscodeintellicode",
