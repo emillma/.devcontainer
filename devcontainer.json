@@ -1,49 +1,48 @@
 {
     // "image": "devcontainer:latest",
-    "image": "xavier_ds:latest",
-    "forwardPorts": [
-        3000,
-        8050
-    ],
-    "extensions": [
-        "ms-azuretools.vscode-docker",
-        "ms-vscode.cpptools",
-        "ms-vscode.cpptools-extension-pack",
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-vscode-remote.remote-ssh",
-        "kevinrose.vsc-python-indent",
-        "editorconfig.editorconfig",
-        "nvidia.nsight-vscode-edition",
-        "mhutchie.git-graph",
-        "znck.grammarly",
-        "github.copilot",
-        "janisdd.vscode-edit-csv",
-    ],
-    "name": "mycontainer",
+    "image": "devcontainer:latest",
+    "name": "devcontainer",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "eamodio.gitlens",
+                "github.copilot",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.black-formatter",
+                "ms-toolsai.jupyter",
+                "kevinrose.vsc-python-indent",
+                "modular-mojotools.vscode-mojo",
+                "ms-vscode.cpptools-extension-pack",
+                "nvidia.nsight-vscode-edition",
+                "janisdd.vscode-edit-csv",
+                "svelte.svelte-vscode",
+                "bradlc.vscode-tailwindcss",
+                "visualstudioexptteam.vscodeintellicode"
+                // "znck.grammarly",
+                // "james-yu.latex-workshop",
+            ]
+        }
+    },
     "runArgs": [
+        "--runtime=nvidia",
+        "--privileged",
+        "--net=host",
+        "--ipc=host",
         // "--add-host=host.docker.internal:host-gateway",
         // "${localEnv:DEVCONTAINER_RUN_ARGS}",
         // "--gpus=all",
-        "--privileged",
-        "--net=host",
-        "--runtime=nvidia",
-        "--pid=host"
+        // "--net=host",
+        // "--pid=host"
         // "--group-add $(getent group jtop | awk -F: '{print $3}')",
         // "-v /run/jtop.sock:/run/jtop.sock"
         // "-v /opt/nvidia/nsight-systems-cli/:/opt/nvidia/nsight-systems-cli"
-        // "--device=/dev/spidev0.0",
+        "--device=/dev/ACM0",
+        "--device=/dev/ACM1"
         // "--ipc=host",
-        // "--device=/dev/bus/usb/001/002"
     ],
-    // mount /run/jtop.sock to /run/jtop.sock as volume
     "mounts": [
-        "source=/run/jtop.sock,target=/run/jtop.sock,type=bind"
-        // "source=/opt/nvidia/nsight-systems-cli/,target=/opt/nvidia/nsight-systems-cli,type=volume"
+        "source=/run/jtop.sock,target=/run/jtop.sock,type=bind",
+        // "source=/dev,target=/dev"
     ],
-    // "remoteEnv": {DISPLAY},
-    // "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
-    "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py"
-    // "workspaceFolder": "/workspaces",
-    // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
 }
