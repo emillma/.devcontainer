@@ -28,6 +28,7 @@ RUN pip install black mypy ipykernel jupyter
 RUN pip install numpy scipy
 RUN pip install websockets sympy symforce
 RUN pip install torch torchvision torchaudio
+RUN pip install plotly
 
 # js
 RUN apt install wget
@@ -37,6 +38,7 @@ RUN npm install -g n && n stable
 # gitconfig
 RUN git config --global core.fileMode false
 RUN git config --global core.autocrlf true
+RUN git config --global --add safe.directory "*"
 RUN git config --global user.email "emil.martens@gmail.com"
 RUN git config --global user.name "Emil Martens"
 
@@ -46,3 +48,4 @@ WORKDIR /root
 RUN echo "export DISPLAY=host.docker.internal:0.0" >> .bashrc
 RUN echo "export LIBGL_ALWAYS_INDIRECT=1" >> .bashrc
 
+# USER emil

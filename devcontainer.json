@@ -10,24 +10,25 @@
                 "github.copilot",
                 "janisdd.vscode-edit-csv",
                 "kevinrose.vsc-python-indent",
-                "mhutchie.git-graph",
-                "modular-mojotools.vscode-mojo",
+                "eamodio.gitlens",
                 "ms-python.python",
                 "ms-python.vscode-pylance",
                 "ms-toolsai.jupyter",
+                "ms-python.black-formatter",
                 "ms-vscode.cpptools-extension-pack",
                 "nvidia.nsight-vscode-edition",
                 "svelte.svelte-vscode",
-                "visualstudioexptteam.vscodeintellicode",
-                "znck.grammarly",
-                "james-yu.latex-workshop",
+                "visualstudioexptteam.vscodeintellicode"
+                // "znck.grammarly"
+                // "james-yu.latex-workshop"
+                // "modular-mojotools.vscode-mojo",
             ]
         }
     },
     "runArgs": [
         "--gpus=all",
-        "--net=host",
-        "-eNVIDIA_DRIVER_CAPABILITIES=all",
+        // "--net=host",
+        "-eNVIDIA_DRIVER_CAPABILITIES=all"
         // "--add-host=host.docker.internal:host-gateway",
         // "--cap-add=SYS_PTRACE",
         // "--security-opt",
@@ -36,11 +37,8 @@
         // "${localEnv:DEVCONTAINER_RUN_ARGS}"
     ],
     "forwardPorts": [
-        5173, // SvelteKit
-        5170, // WebSockets
-    ],
-    // "postStartCommand": "cd ${containerWorkspaceFolder}/.devcontainer && python3 post_start.py",
-    // "initializeCommand": "cd ${localWorkspaceFolder}/.devcontainer && python3 initialize.py",
-    // "workspaceFolder": "/workspaces"
-    // "workspaceMount": "source=sensorrig-ws,target=/workspace,type=volume",
+        12101,
+        12102,
+        12103
+    ]
 }
