@@ -26,15 +26,25 @@ RUN printf "%s\n" "alias pip=pip3" "alias pip3='DISPLAY= pip3'" "alias python=py
 
 RUN pip install --upgrade pip setuptools
 
-WORKDIR /root/arena
-RUN apt install -y file build-essential sudo
-COPY files/ArenaSDK_v0.1.49_Linux_ARM64.tar.gz ArenaSDK_Linux_ARM64.tar.gz
-COPY files/arena_api-2.3.3-py3-none-any.zip arena_api.zip
-RUN tar -xzf ArenaSDK_Linux_ARM64.tar.gz 
-RUN cd ArenaSDK_Linux_ARM64 && sh Arena_SDK_ARM64.conf
-RUN apt install -y unzip && unzip -a arena_api.zip -d arena_api
-RUN pip install --no-deps arena_api/arena_api-2.3.3-py3-none-any.whl
+# WORKDIR /root/arena
+# RUN apt install -y file build-essential sudo
+# COPY files/ArenaSDK_v0.1.49_Linux_ARM64.tar.gz ArenaSDK_Linux_ARM64.tar.gz
+# COPY files/arena_api-2.3.3-py3-none-any.zip arena_api.zip
+# RUN tar -xzf ArenaSDK_Linux_ARM64.tar.gz 
+# RUN cd ArenaSDK_Linux_ARM64 && sh Arena_SDK_ARM64.conf
+# RUN apt install -y unzip && unzip -a arena_api.zip -d arena_api
+# RUN pip install --no-deps /root/arena/arena_api/arena_api-2.3.3-py3-none-any.whl
 
+WORKDIR /root/geni
+RUN wget https://static.matrix-vision.com/mvIMPACT_Acquire/3.0.3/ImpactAcquire-ARM64_gnu-3.0.3.tgz
+RUN wget https://static.matrix-vision.com/mvIMPACT_Acquire/3.0.3/install_ImpactAcquire.sh
+RUN chmod +x install_ImpactAcquire.sh 
+# to do this run; cp /lib/modules/5.15.122-tegra ./files
+# VOLUME files/5.15.122-tegra /lib/modules/5.15.122-tegra
+# RUN --mount=type=bind,target=/lib/modules/5.15.122-tegra,source=/lib/modules/5.15.122-tegra \
+# NPROC=$(nproc) sudo ./install_ImpactAcquire.sh --unattended
+RUN mkdir build
+RUN NPROC=$(nproc) ./install_ImpactAcquire.sh --unattended -a=gev -e=u3v,pcie,usb2,vdev --path ./build
 # js
 RUN apt install wget
 RUN apt install -y nodejs npm
@@ -48,6 +58,7 @@ RUN pip install plotly
 
 RUN apt install -y net-tools ethtool
 RUN pip install aiofiles ifcfg jetson-stats
+RUN pip install pillow
 
 # gitconfig
 RUN git config --global core.fileMode false

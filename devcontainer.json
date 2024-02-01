@@ -38,6 +38,7 @@
         // "--group-add $(getent group jtop | awk -F: '{print $3}')",
     ],
     "mounts": [
-        "source=/run/jtop.sock,target=/run/jtop.sock,type=bind"
+        "source=/run/jtop.sock,target=/run/jtop.sock,type=bind",
+        "source=/lib/modules/5.15.122-tegra,target=/lib/modules/5.15.122-tegra,type=bind"
     ]
 }
