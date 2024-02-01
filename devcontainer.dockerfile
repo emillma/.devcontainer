@@ -27,7 +27,7 @@ RUN printf "%s\n" "alias pip=pip3" "alias pip3='DISPLAY= pip3'" "alias python=py
 RUN pip install --upgrade pip setuptools
 
 WORKDIR /root/arena
-RUN apt install -y file build-essential
+RUN apt install -y file build-essential sudo
 COPY files/ArenaSDK_v0.1.49_Linux_ARM64.tar.gz ArenaSDK_Linux_ARM64.tar.gz
 COPY files/arena_api-2.3.3-py3-none-any.zip arena_api.zip
 RUN tar -xzf ArenaSDK_Linux_ARM64.tar.gz 
@@ -45,8 +45,9 @@ RUN pip install numpy scipy
 RUN pip install websockets
 RUN pip install torch torchvision torchaudio
 RUN pip install plotly
-RUN pip install aiofiles
-RUN pip install jetson-stats
+
+RUN apt install -y net-tools ethtool
+RUN pip install aiofiles ifcfg jetson-stats
 
 # gitconfig
 RUN git config --global core.fileMode false
