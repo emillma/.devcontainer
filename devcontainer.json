@@ -36,11 +36,8 @@
         // "--net=host",
         // "--pid=host"
         // "--group-add $(getent group jtop | awk -F: '{print $3}')",
-        // "-v /run/jtop.sock:/run/jtop.sock"
-        // "-v /opt/nvidia/nsight-systems-cli/:/opt/nvidia/nsight-systems-cli"
     ],
     "mounts": [
-        "source=/run/jtop.sock,target=/run/jtop.sock,type=bind",
-        // "source=/dev,target=/dev"
+        "source=/run/jtop.sock,target=/run/jtop.sock,type=bind"
     ]
 }
