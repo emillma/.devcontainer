@@ -29,6 +29,7 @@
         "--privileged",
         "--net=host",
         "--ipc=host",
+        "--device=/dev/ttyACM0"
         // "--add-host=host.docker.internal:host-gateway",
         // "${localEnv:DEVCONTAINER_RUN_ARGS}",
         // "--gpus=all",
@@ -37,12 +38,9 @@
         // "--group-add $(getent group jtop | awk -F: '{print $3}')",
         // "-v /run/jtop.sock:/run/jtop.sock"
         // "-v /opt/nvidia/nsight-systems-cli/:/opt/nvidia/nsight-systems-cli"
-        "--device=/dev/ACM0",
-        "--device=/dev/ACM1"
-        // "--ipc=host",
     ],
     "mounts": [
         "source=/run/jtop.sock,target=/run/jtop.sock,type=bind",
         // "source=/dev,target=/dev"
-    ],
+    ]
 }
