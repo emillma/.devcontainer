@@ -43,8 +43,8 @@ RUN chmod +x install_ImpactAcquire.sh
 # VOLUME files/5.15.122-tegra /lib/modules/5.15.122-tegra
 # RUN --mount=type=bind,target=/lib/modules/5.15.122-tegra,source=/lib/modules/5.15.122-tegra \
 # NPROC=$(nproc) sudo ./install_ImpactAcquire.sh --unattended
-RUN mkdir build
-RUN NPROC=$(nproc) ./install_ImpactAcquire.sh --unattended -a=gev -e=u3v,pcie,usb2,vdev --path ./build
+RUN mkdir /root/geni/build
+RUN NPROC=$(nproc) ./install_ImpactAcquire.sh --unattended -a=gev -e=u3v,pcie,usb2,vdev --path /root/geni/build
 # js
 RUN apt install wget
 RUN apt install -y nodejs npm
@@ -59,6 +59,7 @@ RUN pip install plotly
 RUN apt install -y net-tools ethtool
 RUN pip install aiofiles ifcfg jetson-stats
 RUN pip install pillow
+RUN pip install harvesters
 
 # gitconfig
 RUN git config --global core.fileMode false
