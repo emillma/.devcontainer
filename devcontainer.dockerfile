@@ -53,13 +53,14 @@ RUN npm install -g n && n stable
 RUN pip install black mypy ipykernel jupyter
 RUN pip install numpy scipy
 RUN pip install websockets
-RUN pip install torch torchvision torchaudio
+RUN pip install torch torchvision torchaudio ninja
 RUN pip install plotly
 
 RUN apt install -y net-tools ethtool
 RUN pip install aiofiles ifcfg jetson-stats
 RUN pip install pillow
 RUN pip install harvesters
+RUN pip install pyubx2
 
 # gitconfig
 RUN git config --global core.fileMode false
