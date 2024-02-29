@@ -18,7 +18,8 @@
                 "ms-vscode.cpptools-extension-pack",
                 "nvidia.nsight-vscode-edition",
                 "svelte.svelte-vscode",
-                "visualstudioexptteam.vscodeintellicode"
+                "visualstudioexptteam.vscodeintellicode",
+                "james-yu.latex-workshop"
                 // "znck.grammarly"
                 // "james-yu.latex-workshop"
                 // "modular-mojotools.vscode-mojo",
@@ -27,8 +28,8 @@
     },
     "runArgs": [
         "--gpus=all",
-        // "--net=host",
         "-eNVIDIA_DRIVER_CAPABILITIES=all"
+        // "--net=host",
         // "--add-host=host.docker.internal:host-gateway",
         // "--cap-add=SYS_PTRACE",
         // "--security-opt",
