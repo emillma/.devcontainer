@@ -43,6 +43,12 @@ RUN apt install wget
 RUN apt install -y nodejs npm
 RUN npm install -g n && n stable
 
+# typst 
+WORKDIR /root
+RUN wget https://github.com/typst/typst/releases/download/v0.10.0/typst-x86_64-unknown-linux-musl.tar.xz
+RUN tar -xvf typst-x86_64-unknown-linux-musl.tar.xz
+RUN mv typst-x86_64-unknown-linux-musl/typst /usr/local/bin/typst
+
 # gitconfig
 RUN git config --global core.fileMode false
 RUN git config --global core.autocrlf true
