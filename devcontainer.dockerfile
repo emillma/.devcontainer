@@ -8,6 +8,14 @@ RUN apt install -y  build-essential cmake git
 # pico
 RUN apt install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
 
+# Latex (from https://github.com/blang/latex-docker/blob/master/Dockerfile.ubuntu)
+RUN apt install -y locales && locale-gen en_US.UTF-8 && update-locale
+RUN apt update && apt install -y git build-essential wget libfontconfig1
+RUN apt update && apt install -y \
+    texlive-full \
+    python3-pygments gnuplot
+RUN apt install fonts-firacode
+
 # c++ libraries
 WORKDIR /include
 RUN git clone https://github.com/pybind/pybind11.git
@@ -35,6 +43,12 @@ RUN apt install wget
 RUN apt install -y nodejs npm
 RUN npm install -g n && n stable
 
+# typst 
+WORKDIR /root
+RUN wget https://github.com/typst/typst/releases/download/v0.10.0/typst-x86_64-unknown-linux-musl.tar.xz
+RUN tar -xvf typst-x86_64-unknown-linux-musl.tar.xz
+RUN mv typst-x86_64-unknown-linux-musl/typst /usr/local/bin/typst
+
 # gitconfig
 RUN git config --global core.fileMode false
 RUN git config --global core.autocrlf true
@@ -48,4 +62,3 @@ WORKDIR /root
 RUN echo "export DISPLAY=host.docker.internal:0.0" >> .bashrc
 RUN echo "export LIBGL_ALWAYS_INDIRECT=1" >> .bashrc
 
-# USER emil
