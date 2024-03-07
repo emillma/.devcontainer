@@ -37,8 +37,8 @@
         // "${localEnv:DEVCONTAINER_RUN_ARGS}"
     ],
     "forwardPorts": [
-        12101,
-        12102,
-        12103
+        62201,
+        62202,
+        62203
     ]
 }
