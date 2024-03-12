@@ -29,7 +29,8 @@
         "--privileged",
         "--net=host",
         "--ipc=host",
-        "--device=/dev/ttyACM0"
+        // "--device=/dev/ttyACM0",
+        // "--device=/dev/ttyACM1"
         // "--add-host=host.docker.internal:host-gateway",
         // "${localEnv:DEVCONTAINER_RUN_ARGS}",
         // "--gpus=all",
@@ -38,7 +39,13 @@
         // "--group-add $(getent group jtop | awk -F: '{print $3}')",
     ],
     "mounts": [
+        "source=/dev,target=/dev,type=bind",
         "source=/run/jtop.sock,target=/run/jtop.sock,type=bind",
         "source=/lib/modules/5.15.122-tegra,target=/lib/modules/5.15.122-tegra,type=bind"
+    ],
+    "forwardPorts": [
+        62201,
+        62202,
+        62203
     ]
 }

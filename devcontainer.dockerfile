@@ -47,7 +47,7 @@ RUN apt install -y libopenblas-dev libopenmpi3 libpng-dev libjpeg-dev zlib1g-dev
 RUN pip install ninja
 RUN pip install https://developer.download.nvidia.com/compute/redist/jp/v60dp/pytorch/torch-2.2.0a0+6a974be.nv23.11-cp310-cp310-linux_aarch64.whl
 ENV LD_LIBRARY_PATH=/usr/lib/llvm-8/lib:$LD_LIBRARY_PATH 
-# ENV CUDA_HOME=/usr/local/cuda-12.2/bin
+
 RUN git clone --branch release/0.17 https://github.com/pytorch/vision /root/vision
 WORKDIR /root/vision
 RUN PYTORCH_VERSION=2.2.0 BUILD_VERSION=0.17.0 FORCE_CUDA=1 python3 setup.py install
@@ -57,6 +57,7 @@ RUN apt install -y net-tools ethtool ptpd
 RUN pip install aiofiles ifcfg jetson-stats
 RUN pip install websockets plotly
 RUN pip install pyubx2
+RUN pip install pyserial
 
 
 # WORKDIR /root/geni
