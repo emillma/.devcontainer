@@ -59,6 +59,7 @@ RUN pip install websockets plotly
 RUN pip install pyubx2
 RUN pip install pyserial
 
+RUN pip install atomicwrites git+https://github.com/commaai/laika.git
 
 # WORKDIR /root/geni
 # RUN wget https://static.matrix-vision.com/mvIMPACT_Acquire/3.0.3/ImpactAcquire-ARM64_gnu-3.0.3.tgz

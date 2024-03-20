@@ -18,7 +18,8 @@
                 "janisdd.vscode-edit-csv",
                 "svelte.svelte-vscode",
                 "bradlc.vscode-tailwindcss",
-                "visualstudioexptteam.vscodeintellicode"
+                "visualstudioexptteam.vscodeintellicode",
+                "rioj7.command-variable"
                 // "znck.grammarly",
                 // "james-yu.latex-workshop",
             ]
