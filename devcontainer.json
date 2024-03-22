@@ -5,37 +5,40 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "bradlc.vscode-tailwindcss",
-                "donjayamanne.githistory",
-                "github.copilot",
-                "janisdd.vscode-edit-csv",
-                "kevinrose.vsc-python-indent",
                 "eamodio.gitlens",
+                "github.copilot",
                 "ms-python.python",
                 "ms-python.vscode-pylance",
-                "ms-toolsai.jupyter",
                 "ms-python.black-formatter",
+                "ms-toolsai.jupyter",
+                "kevinrose.vsc-python-indent",
+                "modular-mojotools.vscode-mojo",
                 "ms-vscode.cpptools-extension-pack",
                 "nvidia.nsight-vscode-edition",
+                "janisdd.vscode-edit-csv",
                 "svelte.svelte-vscode",
+                "bradlc.vscode-tailwindcss",
                 "visualstudioexptteam.vscodeintellicode",
-                "james-yu.latex-workshop"
-                // "znck.grammarly"
-                // "james-yu.latex-workshop"
-                // "modular-mojotools.vscode-mojo",
+                "rioj7.command-variable""znck.grammarly",
+                "james-yu.latex-workshop",
             ]
         }
     },
     "runArgs": [
-        "--gpus=all",
-        "-eNVIDIA_DRIVER_CAPABILITIES=all"
-        // "--net=host",
+        "--runtime=nvidia",
+        "--privileged",
+        "--net=host",
+        "--ipc=host",
+        // "--gpus=all",
+        // "-eNVIDIA_DRIVER_CAPABILITIES=all"
+        // "--pid=host"
         // "--add-host=host.docker.internal:host-gateway",
-        // "--cap-add=SYS_PTRACE",
-        // "--security-opt",
-        // "seccomp=unconfined",
-        // "--device=/dev/ACM0"
-        // "${localEnv:DEVCONTAINER_RUN_ARGS}"
+    ],
+    "mounts": [
+        // "source=/dev,target=/dev,type=bind",
+        // "source=/home/nvidia/datasets,target=/datasets,type=bind",
+        // "source=/run/jtop.sock,target=/run/jtop.sock,type=bind"
+        // "source=/lib/modules/5.15.122-tegra,target=/lib/modules/5.15.122-tegra,type=bind"
     ],
     "forwardPorts": [
         62201,
