@@ -19,18 +19,19 @@
                 "svelte.svelte-vscode",
                 "bradlc.vscode-tailwindcss",
                 "visualstudioexptteam.vscodeintellicode",
-                "rioj7.command-variable""znck.grammarly",
-                "james-yu.latex-workshop",
+                "rioj7.command-variable",
+                "znck.grammarly",
+                "james-yu.latex-workshop"
             ]
         }
     },
     "runArgs": [
-        "--runtime=nvidia",
+        // "--runtime=nvidia",
+        "-eNVIDIA_DRIVER_CAPABILITIES=all",
         "--privileged",
         "--net=host",
-        "--ipc=host",
+        "--ipc=host"
         // "--gpus=all",
-        // "-eNVIDIA_DRIVER_CAPABILITIES=all"
         // "--pid=host"
         // "--add-host=host.docker.internal:host-gateway",
     ],
