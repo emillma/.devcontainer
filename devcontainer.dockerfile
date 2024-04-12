@@ -76,7 +76,7 @@ RUN pip install atomicwrites git+https://github.com/commaai/laika.git
 
 # gitconfig
 RUN git config --global core.fileMode false
-RUN git config --global core.autocrlf true
+RUN git config --global core.autocrlf input
 RUN git config --global --add safe.directory "*"
 RUN git config --global user.email "emil.martens@gmail.com"
 RUN git config --global user.name "Emil Martens"
