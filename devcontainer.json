@@ -36,6 +36,7 @@
         // "--add-host=host.docker.internal:host-gateway",
     ],
     "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
         // "source=/dev,target=/dev,type=bind",
         // "source=/home/nvidia/datasets,target=/datasets,type=bind",
         // "source=/run/jtop.sock,target=/run/jtop.sock,type=bind"

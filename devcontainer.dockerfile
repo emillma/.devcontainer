@@ -24,7 +24,7 @@ RUN apt update && apt install -y nodejs npm
 RUN npm install -g n && n stable
 
 # python
-ARG python=python3.12
+ARG python=python3.11
 RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt update && apt install -y ${python} ${python}-distutils ${python}-dev python3-pip
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1
@@ -56,6 +56,9 @@ RUN pip install aiofiles ifcfg jetson-stats
 RUN pip install websockets plotly
 RUN pip install pyubx2
 RUN pip install pyserial
+
+RUN pip install ninja
+RUN pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121
 
 RUN pip install atomicwrites git+https://github.com/commaai/laika.git
 
