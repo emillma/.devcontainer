@@ -61,6 +61,8 @@ RUN pip install pyserial
 
 RUN pip install atomicwrites git+https://github.com/commaai/laika.git
 
+RUN apt install -y libgmp-dev 
+RUN pip install git+https://github.com/symforce-org/symforce.git
 # WORKDIR /root/geni
 # RUN wget https://static.matrix-vision.com/mvIMPACT_Acquire/3.0.3/ImpactAcquire-ARM64_gnu-3.0.3.tgz
 # RUN wget https://static.matrix-vision.com/mvIMPACT_Acquire/3.0.3/install_ImpactAcquire.sh
