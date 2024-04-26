@@ -21,7 +21,9 @@
                 "visualstudioexptteam.vscodeintellicode",
                 "rioj7.command-variable",
                 "znck.grammarly",
-                "james-yu.latex-workshop"
+                "james-yu.latex-workshop",
+                "nvidia.nsight-vscode-edition",
+                "samuelcolvin.jinja"
             ]
         }
     },
