@@ -56,11 +56,11 @@ RUN pip install aiofiles ifcfg jetson-stats
 RUN pip install websockets plotly pandas
 RUN pip install pyubx2
 RUN pip install pyserial
-
 RUN pip install ninja
 RUN pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121
 RUN pip install wandb python-opencv
 RUN pip install symforce aiohttp
+RUN pip install git+https://github.com/locuslab/qpth.git
 
 
 # gitconfig
