@@ -58,9 +58,10 @@ RUN pip install pyubx2
 RUN pip install pyserial
 RUN pip install ninja
 RUN pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121
-RUN pip install wandb python-opencv
+RUN pip install wandb opencv-python
 RUN pip install symforce aiohttp
 RUN pip install git+https://github.com/locuslab/qpth.git
+RUN pip install tqdm
 
 
 # gitconfig
@@ -75,3 +76,4 @@ WORKDIR /root
 
 RUN echo "export DISPLAY=host.docker.internal:0.0" >> .bashrc
 RUN echo "export LIBGL_ALWAYS_INDIRECT=1" >> .bashrc
+RUN echo "export DEBUGPY_PROCESS_SPAWN_TIMEOUT=1200" >> ~/.profile
