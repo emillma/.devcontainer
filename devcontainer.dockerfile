@@ -23,15 +23,21 @@ RUN apt install wget
 RUN apt update && apt install -y nodejs npm
 RUN npm install -g n && n stable
 
+# ffmpeg
+# RUN apt install -y ffmpeg
+
 # python
 ARG python=python3.11
 RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt update && apt install -y ${python} ${python}-distutils ${python}-dev python3-pip
+RUN apt update && apt install -y ${python} ${python}-distutils ${python}-dev ${python}-venv
+RUN ${python} -m ensurepip --upgrade
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/${python} 1
-RUN update-alternatives --config python3
-RUN printf "%s\n" "alias pip=pip3" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
-RUN pip install --upgrade pip setuptools
+RUN update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3 1
+# RUN update-alternatives --config python3
+# RUN printf "%s\n" "alias pip=pip3" "alias pip3='DISPLAY= pip3'" "alias python=python3" > ~/.bash_aliases
+# RUN echo "alias pip=pip3" > ~/.bashrc
 
+RUN pip install --upgrade setuptools
 # WORKDIR /root/arena
 # RUN apt install -y file build-essential sudo
 # COPY files/ArenaSDK_v0.1.49_Linux_ARM64.tar.gz ArenaSDK_Linux_ARM64.tar.gz
@@ -62,7 +68,21 @@ RUN pip install wandb opencv-python
 RUN pip install symforce aiohttp
 RUN pip install git+https://github.com/locuslab/qpth.git
 RUN pip install tqdm
+RUN pip install numba
 
+WORKDIR /include/pynvvideo
+RUN wget --content-disposition https://api.ngc.nvidia.com/v2/resources/nvidia/pynvvideocodec/versions/1.0.2/zip -O pynvvideocodec.zip
+RUN unzip pynvvideocodec.zip
+RUN pip3 install PyNvVideoCodec_1.0.2.zip
+
+
+RUN apt install -y curl && curl -s https://get.modular.com | sh -
+RUN script -q -c 'modular auth' /dev/stdout
+RUN modular install nightly/mojo
+RUN MOJO_PATH=$(modular config mojo.path) \
+    && BASHRC=$( [ -f "$HOME/.bash_profile" ] && echo "$HOME/.bash_profile" || echo "$HOME/.bashrc" ) \
+    && echo 'export MODULAR_HOME="'$HOME'/.modular"' >> "$BASHRC" \
+    && echo 'export PATH="'$MOJO_PATH'/bin:$PATH"' >> "$BASHRC" 
 
 # gitconfig
 RUN git config --global core.fileMode false
