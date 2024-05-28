@@ -58,6 +58,7 @@ RUN pip install aiofiles ifcfg jetson-stats
 RUN pip install websockets plotly
 RUN pip install pyubx2
 RUN pip install pyserial
+RUN pip install aiohttp
 
 RUN pip install atomicwrites git+https://github.com/commaai/laika.git
 
