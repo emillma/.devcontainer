@@ -79,6 +79,9 @@ RUN pip install git+https://github.com/locuslab/qpth.git
 RUN pip install tqdm
 RUN pip install numba
 
+RUN pip install pyquaternion foxglove_websocket foxglove_schemas_protobuf mypy-protobuf mcap mcap-protobuf-support
+RUN apt install -y protobuf-compiler
+
 RUN pip install PyNvVideoCodec
 RUN pip install nvidia-nvimgcodec-cu12
 WORKDIR /include/pynvvideo
