@@ -1,6 +1,6 @@
 {
     // "image": "devcontainer:latest",
-    "image": "devcontainer:latest",
+    "image": "papers:latest",
     "name": "devcontainer",
     "customizations": {
         "vscode": {
@@ -23,7 +23,8 @@
                 "znck.grammarly",
                 "james-yu.latex-workshop",
                 "nvidia.nsight-vscode-edition",
-                "samuelcolvin.jinja"
+                "samuelcolvin.jinja",
+                "charliermarsh.ruff"
             ]
         }
     },
@@ -32,10 +33,10 @@
         "-eNVIDIA_DRIVER_CAPABILITIES=all",
         "--privileged",
         "--net=host",
-        "--ipc=host"
+        "--ipc=host",
         // "--gpus=all",
         // "--pid=host"
-        // "--add-host=host.docker.internal:host-gateway",
+        "--add-host=host.docker.internal:host-gateway",
     ],
     "mounts": [
         "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
