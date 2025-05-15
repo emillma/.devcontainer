@@ -21,6 +21,7 @@ RUN apt-get -y install cudss
 
 # ceres
 # RUN git clone https://github.com/ceres-solver/ceres-solver --recurse-submodules
+WORKDIR /include
 RUN git clone https://github.com/adam-ce/ceres-solver.git --recurse-submodules
 WORKDIR /include/ceres-solver
 RUN git submodule update --init --recursive
@@ -29,15 +30,19 @@ RUN ln libcudss.so libcudss.so.0.3.0
 RUN ln libcudss_commlayer_openmpi.so libcudss_commlayer_openmpi.so.0.3.0
 RUN ln libcudss_commlayer_nccl.so libcudss_commlayer_nccl.so.0.3.0
 WORKDIR /include/ceres-solver/build
-RUN cmake .. && make -j
+RUN cmake .. 
+RUN make -j
 RUN make install
 
+
 # gtsam
-WORKDIR /include
-RUN git clone https://github.com/borglab/gtsam.git
-RUN apt install -y libboost-all-dev
-WORKDIR /include/gtsam/build
-RUN cmake .. && make -j
+# WORKDIR /include
+# RUN git clone https://github.com/borglab/gtsam.git
+# RUN apt update
+# RUN apt install -y libboost-all-dev
+# WORKDIR /include/gtsam/build
+# RUN cmake .. 
+# RUN make -j
 
 # python
 ARG python=python3.11
@@ -53,7 +58,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/${python} 1
 # RUN pip3 install black mypy
 RUN pip3 install numpy scipy numba
 RUN pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
-RUN pip3 install plotly
+RUN pip3 install plotly kaleido  
 RUN pip3 install tqdm
 RUN pip3 install foxglove_websocket foxglove_schemas_protobuf mypy-protobuf mcap mcap-protobuf-support
 
@@ -62,8 +67,45 @@ RUN git clone https://github.com/symforce-org/symforce.git
 WORKDIR /include/symforce
 RUN apt install -y libgmp-dev libspdlog-dev libeigen3-dev
 RUN pip3 install --upgrade pip setuptools
-RUN pip3 install -r dev_requirements.txt
+# RUN pip3 install -r requirements.txt
 RUN pip3 install .
+
+WORKDIR /include
+RUN git clone https://github.com/MegviiRobot/MegBA.git --recurse-submodules
+RUN sed -i '1i #include <thrust/extrema.h>' /include/MegBA/src/algo/lm_algo.cu
+RUN sed -i 's/60;61;62;70;72;75;80;86;87/60;61;62;70;72;75;80;86;87;89/' /include/MegBA/CMakeLists.txt
+WORKDIR /include/MegBA/build
+RUN cmake .. -DCMAKE_BUILD_TYPE=Release 
+RUN make -j
+
+# WORKDIR /include
+# RUN git clone https://github.com/NVIDIA/cccl.git
+# RUN cmake --preset install-unstable -DCMAKE_INSTALL_PREFIX=/usr/local/
+# WORKDIR /include/cccl/build/install-unstable
+# RUN ninja install
+
+
+# RUN git clone https://github.com/facebookresearch/DABA.git
+# WORKDIR /include/DABA/build
+# RUN cmake -DCMAKE_BUILD_TYPE=Release ..
+# RUN make -j
+
+WORKDIR /include
+RUN git clone https://github.com/hjwdzh/DeepLM.git --recurse-submodules
+RUN sed -i 's/CMAKE_CXX_STANDARD 14/CMAKE_CXX_STANDARD 17/' /include/DeepLM/CMakeLists.txt
+RUN sed -i '19i set (PYBIND11_PYTHON_VERSION "3.11")
+' /include/DeepLM/CMakeLists.txt
+# use these regex replacements to fix the errors
+# static_cast<([^(?const)].*?)>\((.*)\)
+# const_cast<$1>(reinterpret_cast<const $1>($2))
+
+
+WORKDIR /include/build
+RUN apt install libomp-dev
+RUN cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_CUDA=ON
+RUN make -j
+
+# RUN pip3 install Pygments
 
 
 # WORKDIR /include
