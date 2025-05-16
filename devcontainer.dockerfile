@@ -85,9 +85,11 @@ RUN make -j
 # RUN ninja install
 
 
-# RUN git clone https://github.com/facebookresearch/DABA.git
-# WORKDIR /include/DABA/build
-# RUN cmake -DCMAKE_BUILD_TYPE=Release ..
+RUN git clone https://github.com/facebookresearch/DABA.git --recurse-submodules
+RUN apt install -y libopenmpi-dev
+RUN apt install -y libboost-all-dev
+WORKDIR /include/DABA/release
+RUN cmake -DCMAKE_BUILD_TYPE=Release ..
 # RUN make -j
 
 WORKDIR /include
